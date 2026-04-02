@@ -1,0 +1,154 @@
+[app]
+name = "Agent Platform V1"
+env = "development"
+host = "0.0.0.0"
+port = 8080
+cors_origins = ["http://localhost:5173", "http://localhost:3000"]
+
+[model]
+provider = "openai_compat"
+base_url = "https://api.openai.com/v1"
+model = "gpt-4o-mini"
+timeout_seconds = 60
+temperature = 0.2
+
+[search]
+provider = "duckduckgo"
+max_results = 5
+
+[search.providers.duckduckgo]
+enabled = true
+
+[search.providers.tavily]
+enabled = false
+base_url = "https://api.tavily.com"
+
+[search.providers.serpapi]
+enabled = false
+base_url = "https://serpapi.com"
+
+[search.providers.perplexity]
+enabled = false
+base_url = "https://api.perplexity.ai"
+model = "sonar"
+
+[search.providers.searxng]
+enabled = false
+base_url = ""
+
+[embedding]
+provider = "none"
+model = ""
+base_url = ""
+
+[storage]
+root = "app/storage"
+history_db = "app/storage/sqlite/history.db"
+memory_db = "app/storage/sqlite/memory.db"
+trace_db = "app/storage/sqlite/traces.db"
+rag_store = "app/storage/knowledge"
+notes_path = "app/storage/notes"
+
+[memory]
+backend = "sqlite"
+extraction_mode = "hybrid"
+embedding_mode = "auto"
+graph_enabled = true
+perceptual_enabled = true
+forgetting_enabled = true
+conflict_strategy = "confidence"
+local_embedding_dimensions = 128
+
+[rag]
+backend = "local"
+chunk_size = 500
+chunk_overlap = 50
+
+[mcp]
+enabled = false
+default_transport = "stdio"
+
+[[mcp.servers]]
+name = "github"
+enabled = false
+transport = "stdio"
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-github"]
+description = "GitHub MCP server"
+
+[[mcp.servers]]
+name = "filesystem"
+enabled = false
+transport = "stdio"
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-filesystem", "."]
+description = "Filesystem MCP server"
+
+[runtime]
+default_history_limit = 20
+default_context_token_budget = 6000
+default_tool_iterations = 2
+
+[research]
+default_task_count = 4
+sources_per_task = 5
+max_parallel_tasks = 3
+
+[vector_store]
+qdrant_url = ""
+qdrant_api_key = ""
+qdrant_collection = "agent_platform_v1"
+
+[graph_store]
+neo4j_uri = ""
+neo4j_username = ""
+neo4j_password = ""
+
+[integrations]
+tavily_api_key = ""
+serpapi_api_key = ""
+perplexity_api_key = ""
+github_personal_access_token = ""
+amap_api_key = ""
+unsplash_access_key = ""
+unsplash_secret_key = ""
+
+[apps.chat]
+enabled = true
+default_model = ""
+history_limit = 20
+tool_iterations = 2
+search_max_results = 5
+allowed_tools = ["search", "note"]
+allowed_mcp_servers = []
+knowledge_scopes = ["chat"]
+
+[apps.chat.capabilities]
+history = true
+memory = true
+rag = true
+mcp = true
+skills = true
+notes = true
+streaming = true
+workflow = false
+
+[apps.deep_research]
+enabled = true
+default_model = ""
+history_limit = 10
+tool_iterations = 3
+search_max_results = 5
+allowed_tools = ["search", "note"]
+allowed_mcp_servers = []
+knowledge_scopes = ["deep_research"]
+
+[apps.deep_research.capabilities]
+history = true
+memory = true
+rag = true
+mcp = false
+skills = false
+notes = true
+streaming = true
+workflow = true

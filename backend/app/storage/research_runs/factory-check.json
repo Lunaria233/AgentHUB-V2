@@ -1,0 +1,617 @@
+{
+  "session_id": "factory-check",
+  "app_id": "deep_research",
+  "topic": "AI agent context engineering",
+  "user_id": "u1",
+  "status": "completed",
+  "report": "# AI agent context engineering\n\n## Overview\nThis report covers the topic `AI agent context engineering` through the tasks below.\n\n## Background and definition\nBackground and definition\n\nBased on the initial search, the following signals were found:\n- Context Engineering Guide: Techniques for AI Agents | LlamaIndex: Although the principles behind the term ‘context engineering’ are not new, the wording is a useful abstraction that allows us to reason about the most pressing challenges when it comes to building effective AI agents. * **Global State/Context:** especially relevant to agents built with LlamaIndex, allowing us to use workflow `Context`  as a sort of scratchpad that we can store and retrieve global information across agent steps. Some combination of the above make up the context for the underlying LLM in practically all agentic AI applications now. With each iteration we have with an agent, if long-term memory is important to the use case, the agent will be retrieving additional context from it before deciding on the next best step. While context engineering focuses on optimizing what information goes into each LLM call, workflow engineering takes a step back to ask: *what sequence of LLM calls and non-LLM steps do we need to reliably complete this work?* Ultimately this allows us to optimize the context as well.\n- Context Engineering for AI Agents Explained - Department of Product: # Context Engineering for AI Agents Explained - a simple overview of the basics. In this Knowledge Series, we’ll take a closer look at this emerging new concept of context engineering. We’ll explore what it is, the different types of context that you can give AI Agents and why this matters to product teams building AI features. Context describes the process of building a system that can provide an LLM / AI Agent all of the relevant information and tools in the right formats it needs so that it can complete a task. AI agents can get context from multiple different sources including the engineer building the agents, the user, previous interactions or external data. Here’s a snapshot of each of the different types of context that are typically available to engineering teams working on developing AI-powered features or agents:. AI agents can be given access to multiple different types of context to improve their performance - and potentially reduce the number of tokens required to achieve their goals.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).\n\n## Current progress and state\nCurrent progress and state\n\nBased on the initial search, the following signals were found:\n- How to improve AI agent performance with context engineering: At its core, context engineering involves three critical components: data curation, information architecture, and dynamic context management.\n- Deep Dive into Context Engineering for Agents - Galileo AI: A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. Memory vs Context.\n- Why Context Engineering? | Prompt Engineering Guide: Context engineering involves carefully crafting and refining the prompts, instructions, and constraints that guide an AI agent's behavior to\n\n## Key players and case studies\nKey players and case studies\n\nBased on the initial search, the following signals were found:\n- How Top AI Companies Handle Context Engineering - LinkedIn: The companies building the most capable AI agents today: Manus AI , Cursor, Anthropic , OpenAI , Google DeepMind, LangChain in are all\n- Real-World Context Engineering: Live Context for AI Agents - YouTube: ... AI agents, why infrastructure discipline is so important. The Millennium Alliance | #millenniumlive | Materialize.\n- Deep Dive into Context Engineering for Agents - Galileo AI: By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails.\n\n## Challenges and outlook\nChallenges and outlook\n\nBased on the initial search, the following signals were found:\n- Why 'Context Engineering' is the New Frontier for AI Agents - Vellum AI: # Why ‘Context Engineering’ is the New Frontier for AI Agents. The debate kicked off when Cognition, the company behind the AI coding agent Devin, posted a blog arguing that multi-agent architectures are a \"tempting idea\" that is \"quite bad in practice.\" They advocate instead for a single-agent approach powered by what they call “Context Engineering.”. To understand why Context Engineering is causing a stir, we first need to understand the dominant paradigm for building complex agents: the multi-agent system. If prompt engineering is the art of crafting the perfect initial instruction, Context Engineering is the discipline of dynamically managing the entirety of information an agent sees at every step of a complex task. Even a single AI agent needs to retrieve information (a form of context), and a multi-agent system is useless if the individual agents have poor context. A top-level \"Context Engineer\" agent will manage the overall task. Crucially, each of these temporary agents will itself benefit from meticulously engineered context.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).\n- 6 Context Engineering Challenges : r/ContextEngineering - Reddit: Beyond single interactions, AI agents struggle with complex multi-step tasks because current context windows can't maintain coherent\n\n## Conclusion\nThis is a V1 auto-generated report. Retrieval and citation quality can be improved further.",
+  "tasks": [
+    {
+      "task_id": 1,
+      "title": "Background and definition",
+      "query": "AI agent context engineering Background and definition",
+      "goal": "Analyze background and definition",
+      "summary": "Background and definition\n\nBased on the initial search, the following signals were found:\n- Context Engineering Guide: Techniques for AI Agents | LlamaIndex: Although the principles behind the term ‘context engineering’ are not new, the wording is a useful abstraction that allows us to reason about the most pressing challenges when it comes to building effective AI agents. * **Global State/Context:** especially relevant to agents built with LlamaIndex, allowing us to use workflow `Context`  as a sort of scratchpad that we can store and retrieve global information across agent steps. Some combination of the above make up the context for the underlying LLM in practically all agentic AI applications now. With each iteration we have with an agent, if long-term memory is important to the use case, the agent will be retrieving additional context from it before deciding on the next best step. While context engineering focuses on optimizing what information goes into each LLM call, workflow engineering takes a step back to ask: *what sequence of LLM calls and non-LLM steps do we need to reliably complete this work?* Ultimately this allows us to optimize the context as well.\n- Context Engineering for AI Agents Explained - Department of Product: # Context Engineering for AI Agents Explained - a simple overview of the basics. In this Knowledge Series, we’ll take a closer look at this emerging new concept of context engineering. We’ll explore what it is, the different types of context that you can give AI Agents and why this matters to product teams building AI features. Context describes the process of building a system that can provide an LLM / AI Agent all of the relevant information and tools in the right formats it needs so that it can complete a task. AI agents can get context from multiple different sources including the engineer building the agents, the user, previous interactions or external data. Here’s a snapshot of each of the different types of context that are typically available to engineering teams working on developing AI-powered features or agents:. AI agents can be given access to multiple different types of context to improve their performance - and potentially reduce the number of tokens required to achieve their goals.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).",
+      "note_id": "dd8a9ffb-3b24-4fa7-b9c0-810df5bceb1c",
+      "sources": [
+        {
+          "title": "Context Engineering Guide: Techniques for AI Agents | LlamaIndex",
+          "url": "https://www.llamaindex.ai/blog/context-engineering-what-it-is-and-techniques-to-consider",
+          "snippet": "Although the principles behind the term ‘context engineering’ are not new, the wording is a useful abstraction that allows us to reason about the most pressing challenges when it comes to building effective AI agents. * **Global State/Context:** especially relevant to agents built with LlamaIndex, allowing us to use workflow `Context`  as a sort of scratchpad that we can store and retrieve global information across agent steps. Some combination of the above make up the context for the underlying LLM in practically all agentic AI applications now. With each iteration we have with an agent, if long-term memory is important to the use case, the agent will be retrieving additional context from it before deciding on the next best step. While context engineering focuses on optimizing what information goes into each LLM call, workflow engineering takes a step back to ask: *what sequence of LLM calls and non-LLM steps do we need to reliably complete this work?* Ultimately this allows us to optimize the context as well.",
+          "score": 0.99986863
+        },
+        {
+          "title": "Context Engineering for AI Agents Explained - Department of Product",
+          "url": "https://departmentofproduct.substack.com/p/context-engineering-for-ai-agents",
+          "snippet": "# Context Engineering for AI Agents Explained - a simple overview of the basics. In this Knowledge Series, we’ll take a closer look at this emerging new concept of context engineering. We’ll explore what it is, the different types of context that you can give AI Agents and why this matters to product teams building AI features. Context describes the process of building a system that can provide an LLM / AI Agent all of the relevant information and tools in the right formats it needs so that it can complete a task. AI agents can get context from multiple different sources including the engineer building the agents, the user, previous interactions or external data. Here’s a snapshot of each of the different types of context that are typically available to engineering teams working on developing AI-powered features or agents:. AI agents can be given access to multiple different types of context to improve their performance - and potentially reduce the number of tokens required to achieve their goals.",
+          "score": 0.99982053
+        },
+        {
+          "title": "Context Engineering for AI Agents: Lessons from the Trenches",
+          "url": "https://medium.com/@samuel.grummons/context-engineering-for-ai-agents-lessons-from-the-trenches-5b38dc175105",
+          "snippet": "# Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).",
+          "score": 0.9998118
+        },
+        {
+          "title": "Deep Dive into Context Engineering for Agents - Galileo AI",
+          "url": "https://galileo.ai/blog/context-engineering-for-agents",
+          "snippet": "By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails.",
+          "score": 0.99976224
+        },
+        {
+          "title": "What Is Context Engineering in AI Agents? A Practical Guide - Neo4j",
+          "url": "https://neo4j.com/blog/agentic-ai/what-is-context-engineering/",
+          "snippet": "Context is the set of inputs an agent can see and use to reason. Think of context as the kit you pack for a task at work: clear instructions,",
+          "score": 0.9996402
+        }
+      ]
+    },
+    {
+      "task_id": 2,
+      "title": "Current progress and state",
+      "query": "AI agent context engineering Current progress and state",
+      "goal": "Analyze current progress and state",
+      "summary": "Current progress and state\n\nBased on the initial search, the following signals were found:\n- How to improve AI agent performance with context engineering: At its core, context engineering involves three critical components: data curation, information architecture, and dynamic context management.\n- Deep Dive into Context Engineering for Agents - Galileo AI: A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. Memory vs Context.\n- Why Context Engineering? | Prompt Engineering Guide: Context engineering involves carefully crafting and refining the prompts, instructions, and constraints that guide an AI agent's behavior to",
+      "note_id": "69a2dc58-1ec4-4a69-930c-832c215969cd",
+      "sources": [
+        {
+          "title": "How to improve AI agent performance with context engineering",
+          "url": "https://www.glean.com/perspectives/how-to-improve-ai-agent-performance-with-context-engineering",
+          "snippet": "At its core, context engineering involves three critical components: data curation, information architecture, and dynamic context management.",
+          "score": 0.9999573
+        },
+        {
+          "title": "Deep Dive into Context Engineering for Agents - Galileo AI",
+          "url": "https://galileo.ai/blog/context-engineering-for-agents",
+          "snippet": "A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. Memory vs Context.",
+          "score": 0.99995124
+        },
+        {
+          "title": "Why Context Engineering? | Prompt Engineering Guide",
+          "url": "https://www.promptingguide.ai/agents/context-engineering",
+          "snippet": "Context engineering involves carefully crafting and refining the prompts, instructions, and constraints that guide an AI agent's behavior to",
+          "score": 0.99992335
+        },
+        {
+          "title": "Context Engineering Guide: Techniques for AI Agents | LlamaIndex",
+          "url": "https://www.llamaindex.ai/blog/context-engineering-what-it-is-and-techniques-to-consider",
+          "snippet": "Master AI agent design with context engineering. Explore advanced techniques for memory, tool selection, and context window optimization.",
+          "score": 0.99991655
+        },
+        {
+          "title": "Context engineering in agents - Docs by LangChain",
+          "url": "https://docs.langchain.com/oss/python/langchain/context-engineering",
+          "snippet": "Successful agents draw on memories, preferences, and configuration to provide the right instructions for the current state of the conversation. State. Store.",
+          "score": 0.9997695
+        }
+      ]
+    },
+    {
+      "task_id": 3,
+      "title": "Key players and case studies",
+      "query": "AI agent context engineering Key players and case studies",
+      "goal": "Analyze key players and case studies",
+      "summary": "Key players and case studies\n\nBased on the initial search, the following signals were found:\n- How Top AI Companies Handle Context Engineering - LinkedIn: The companies building the most capable AI agents today: Manus AI , Cursor, Anthropic , OpenAI , Google DeepMind, LangChain in are all\n- Real-World Context Engineering: Live Context for AI Agents - YouTube: ... AI agents, why infrastructure discipline is so important. The Millennium Alliance | #millenniumlive | Materialize.\n- Deep Dive into Context Engineering for Agents - Galileo AI: By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails.",
+      "note_id": "90cd83c6-5ded-47b4-89e2-d46967d57bb1",
+      "sources": [
+        {
+          "title": "How Top AI Companies Handle Context Engineering - LinkedIn",
+          "url": "https://www.linkedin.com/pulse/how-top-ai-companies-handle-context-engineering-himanshu-sangshetti-qddof",
+          "snippet": "The companies building the most capable AI agents today: Manus AI , Cursor, Anthropic , OpenAI , Google DeepMind, LangChain in are all",
+          "score": 0.9999542
+        },
+        {
+          "title": "Real-World Context Engineering: Live Context for AI Agents - YouTube",
+          "url": "https://www.youtube.com/watch?v=77zct30W22Y",
+          "snippet": "... AI agents, why infrastructure discipline is so important. The Millennium Alliance | #millenniumlive | Materialize.",
+          "score": 0.99972624
+        },
+        {
+          "title": "Deep Dive into Context Engineering for Agents - Galileo AI",
+          "url": "https://galileo.ai/blog/context-engineering-for-agents",
+          "snippet": "By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails.",
+          "score": 0.99931216
+        },
+        {
+          "title": "Context Engineering for Coding Agents - Martin Fowler",
+          "url": "https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html",
+          "snippet": "# Context Engineering for Coding Agents. For coding agents, there is an emerging set of context engineering approaches and terms. This memo is a primer about the current state of context configuration features, using Claude Code as an example at the end. ## What is context in coding agents? “Everything is context” - however, these are the main categories I think of as context configuration in coding agents. * **LLM**: Allowing the LLM to decide when to load context is a prerequisite for running agents in an unsupervised way. But it’s not all up to us, some coding agent tools are also better at optimising context under the hood than others. **When to use:** Common tasks (review, commit, test, …) that you have a specific longer prompt for, and that you want to trigger yourself, inside the main context *DEPRECATED in Claude Code, superceded by Skills*. Context engineering can definitely make a coding agent more effective and increase the probability of useful results quite a bit.",
+          "score": 0.9992792
+        },
+        {
+          "title": "Context Engineering: Pivotal for Top AI Agents - SearchUnify",
+          "url": "https://www.searchunify.com/resource-center/sudo-technical-blogs/the-role-of-context-engineering-in-ai-agents/",
+          "snippet": "Resource Center > Technical Blogs > The Role of Context Engineering in AI Agents. # The Role of Context Engineering in AI Agents. Context engineering is the discipline of designing AI systems that continuously provide agents with the right context, including relevant data, conversation history, user intent, and system state. In practice, context engineering involves constructing and managing the information an AI agent depends on to operate. ## Why Context Engineering is Foundational for Building Top AI Agents. AI Agents that operate without context engineering may overload the model with unnecessary data or repeatedly request information, increasing computational cost and latency. ## Putting Context Engineering into Action with SearchUnify Agentic AI Suite. This is where SearchUnify Agentic AI suite puts context engineering into action across customer support workflows. By operationalizing context engineering at scale, SearchUnify enables enterprise-ready AI agents that deliver consistent outcomes across complex support workflows. * AI Agents Context Engineering Customer Service Customer Support.",
+          "score": 0.9990527
+        }
+      ]
+    },
+    {
+      "task_id": 4,
+      "title": "Challenges and outlook",
+      "query": "AI agent context engineering Challenges and outlook",
+      "goal": "Analyze challenges and outlook",
+      "summary": "Challenges and outlook\n\nBased on the initial search, the following signals were found:\n- Why 'Context Engineering' is the New Frontier for AI Agents - Vellum AI: # Why ‘Context Engineering’ is the New Frontier for AI Agents. The debate kicked off when Cognition, the company behind the AI coding agent Devin, posted a blog arguing that multi-agent architectures are a \"tempting idea\" that is \"quite bad in practice.\" They advocate instead for a single-agent approach powered by what they call “Context Engineering.”. To understand why Context Engineering is causing a stir, we first need to understand the dominant paradigm for building complex agents: the multi-agent system. If prompt engineering is the art of crafting the perfect initial instruction, Context Engineering is the discipline of dynamically managing the entirety of information an agent sees at every step of a complex task. Even a single AI agent needs to retrieve information (a form of context), and a multi-agent system is useless if the individual agents have poor context. A top-level \"Context Engineer\" agent will manage the overall task. Crucially, each of these temporary agents will itself benefit from meticulously engineered context.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).\n- 6 Context Engineering Challenges : r/ContextEngineering - Reddit: Beyond single interactions, AI agents struggle with complex multi-step tasks because current context windows can't maintain coherent",
+      "note_id": "a7f36ead-b4ae-426c-a21d-d67172739c35",
+      "sources": [
+        {
+          "title": "Why 'Context Engineering' is the New Frontier for AI Agents - Vellum AI",
+          "url": "https://www.vellum.ai/blog/context-is-king-why-context-engineering-is-the-new-frontier-for-ai-agents",
+          "snippet": "# Why ‘Context Engineering’ is the New Frontier for AI Agents. The debate kicked off when Cognition, the company behind the AI coding agent Devin, posted a blog arguing that multi-agent architectures are a \"tempting idea\" that is \"quite bad in practice.\" They advocate instead for a single-agent approach powered by what they call “Context Engineering.”. To understand why Context Engineering is causing a stir, we first need to understand the dominant paradigm for building complex agents: the multi-agent system. If prompt engineering is the art of crafting the perfect initial instruction, Context Engineering is the discipline of dynamically managing the entirety of information an agent sees at every step of a complex task. Even a single AI agent needs to retrieve information (a form of context), and a multi-agent system is useless if the individual agents have poor context. A top-level \"Context Engineer\" agent will manage the overall task. Crucially, each of these temporary agents will itself benefit from meticulously engineered context.",
+          "score": 0.9999505
+        },
+        {
+          "title": "Context Engineering for AI Agents: Lessons from the Trenches",
+          "url": "https://medium.com/@samuel.grummons/context-engineering-for-ai-agents-lessons-from-the-trenches-5b38dc175105",
+          "snippet": "# Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).",
+          "score": 0.9999385
+        },
+        {
+          "title": "6 Context Engineering Challenges : r/ContextEngineering - Reddit",
+          "url": "https://www.reddit.com/r/ContextEngineering/comments/1m7jpfr/6_context_engineering_challenges/",
+          "snippet": "Beyond single interactions, AI agents struggle with complex multi-step tasks because current context windows can't maintain coherent",
+          "score": 0.99993694
+        },
+        {
+          "title": "How to improve AI agent performance with context engineering",
+          "url": "https://www.glean.com/perspectives/how-to-improve-ai-agent-performance-with-context-engineering",
+          "snippet": "The challenge lies not in making AI agents more autonomous, but in providing them with the right context to make informed decisions. AI agent",
+          "score": 0.99992514
+        },
+        {
+          "title": "The 6 context engineering challenges stopping AI from scaling in ...",
+          "url": "https://langwatch.ai/blog/the-6-context-engineering-challenges-stopping-ai-from-scaling-in-production",
+          "snippet": "# The 6 context engineering challenges stopping AI from scaling in production. The answer lies in **context engineering**—the process of supplying AI systems with the right information, at the right time, and in the right format to deliver reliable outputs. While context engineering promises to bridge raw enterprise data with large language models (LLMs), it has also become the **critical bottleneck for enterprise AI adoption**. ## Why context engineering challenges define the guture of Enterprise AI. The future of enterprise AI will be defined by how teams solve context engineering. At LangWatch, we focus on **evaluation, observability, and AI agent testing**, the critical layer that makes context engineering scalable. By addressing these context engineering challenges directly, LangWatch helps enterprises move from **AI experiments to confident AI releases.**. What is context engineering in AI? * **Context engineering** builds scalable systems that deliver the right information to the model across many interactions, data sources, and long workflows. How can enterprises test if their AI context pipelines are reliable?",
+          "score": 0.9999039
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "type": "status",
+      "message": "planning tasks"
+    },
+    {
+      "type": "status",
+      "message": "tasks planned",
+      "tasks": [
+        {
+          "task_id": 1,
+          "title": "Background and definition",
+          "query": "AI agent context engineering Background and definition"
+        },
+        {
+          "task_id": 2,
+          "title": "Current progress and state",
+          "query": "AI agent context engineering Current progress and state"
+        },
+        {
+          "task_id": 3,
+          "title": "Key players and case studies",
+          "query": "AI agent context engineering Key players and case studies"
+        },
+        {
+          "task_id": 4,
+          "title": "Challenges and outlook",
+          "query": "AI agent context engineering Challenges and outlook"
+        }
+      ]
+    },
+    {
+      "type": "status",
+      "message": "researching task 1",
+      "task_id": 1,
+      "title": "Background and definition"
+    },
+    {
+      "type": "tool_call",
+      "tool_name": "search",
+      "arguments": {
+        "query": "AI agent context engineering Background and definition",
+        "max_results": 5
+      },
+      "task_id": 1
+    },
+    {
+      "type": "status",
+      "message": "researching task 2",
+      "task_id": 2,
+      "title": "Current progress and state"
+    },
+    {
+      "type": "tool_call",
+      "tool_name": "search",
+      "arguments": {
+        "query": "AI agent context engineering Current progress and state",
+        "max_results": 5
+      },
+      "task_id": 2
+    },
+    {
+      "type": "status",
+      "message": "researching task 3",
+      "task_id": 3,
+      "title": "Key players and case studies"
+    },
+    {
+      "type": "tool_call",
+      "tool_name": "search",
+      "arguments": {
+        "query": "AI agent context engineering Key players and case studies",
+        "max_results": 5
+      },
+      "task_id": 3
+    },
+    {
+      "type": "status",
+      "message": "researching task 4",
+      "task_id": 4,
+      "title": "Challenges and outlook"
+    },
+    {
+      "type": "tool_call",
+      "tool_name": "search",
+      "arguments": {
+        "query": "AI agent context engineering Challenges and outlook",
+        "max_results": 5
+      },
+      "task_id": 4
+    },
+    {
+      "type": "tool_result",
+      "tool_name": "search",
+      "result": {
+        "ok": true,
+        "provider": "tavily",
+        "query": "AI agent context engineering Background and definition",
+        "answer": "Context engineering in AI agents involves designing what the model knows, including system rules, conversation history, retrieved documents, memory, and tool definitions to optimize performance. It focuses on managing and optimizing the information fed into the model for each interaction.",
+        "results": [
+          {
+            "title": "Context Engineering Guide: Techniques for AI Agents | LlamaIndex",
+            "url": "https://www.llamaindex.ai/blog/context-engineering-what-it-is-and-techniques-to-consider",
+            "snippet": "Although the principles behind the term ‘context engineering’ are not new, the wording is a useful abstraction that allows us to reason about the most pressing challenges when it comes to building effective AI agents. * **Global State/Context:** especially relevant to agents built with LlamaIndex, allowing us to use workflow `Context`  as a sort of scratchpad that we can store and retrieve global information across agent steps. Some combination of the above make up the context for the underlying LLM in practically all agentic AI applications now. With each iteration we have with an agent, if long-term memory is important to the use case, the agent will be retrieving additional context from it before deciding on the next best step. While context engineering focuses on optimizing what information goes into each LLM call, workflow engineering takes a step back to ask: *what sequence of LLM calls and non-LLM steps do we need to reliably complete this work?* Ultimately this allows us to optimize the context as well.",
+            "score": 0.99986863
+          },
+          {
+            "title": "Context Engineering for AI Agents Explained - Department of Product",
+            "url": "https://departmentofproduct.substack.com/p/context-engineering-for-ai-agents",
+            "snippet": "# Context Engineering for AI Agents Explained - a simple overview of the basics. In this Knowledge Series, we’ll take a closer look at this emerging new concept of context engineering. We’ll explore what it is, the different types of context that you can give AI Agents and why this matters to product teams building AI features. Context describes the process of building a system that can provide an LLM / AI Agent all of the relevant information and tools in the right formats it needs so that it can complete a task. AI agents can get context from multiple different sources including the engineer building the agents, the user, previous interactions or external data. Here’s a snapshot of each of the different types of context that are typically available to engineering teams working on developing AI-powered features or agents:. AI agents can be given access to multiple different types of context to improve their performance - and potentially reduce the number of tokens required to achieve their goals.",
+            "score": 0.99982053
+          },
+          {
+            "title": "Context Engineering for AI Agents: Lessons from the Trenches",
+            "url": "https://medium.com/@samuel.grummons/context-engineering-for-ai-agents-lessons-from-the-trenches-5b38dc175105",
+            "snippet": "# Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).",
+            "score": 0.9998118
+          },
+          {
+            "title": "Deep Dive into Context Engineering for Agents - Galileo AI",
+            "url": "https://galileo.ai/blog/context-engineering-for-agents",
+            "snippet": "By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails.",
+            "score": 0.99976224
+          },
+          {
+            "title": "What Is Context Engineering in AI Agents? A Practical Guide - Neo4j",
+            "url": "https://neo4j.com/blog/agentic-ai/what-is-context-engineering/",
+            "snippet": "Context is the set of inputs an agent can see and use to reason. Think of context as the kit you pack for a task at work: clear instructions,",
+            "score": 0.9996402
+          }
+        ],
+        "response_time": 1.27
+      },
+      "task_id": 1
+    },
+    {
+      "type": "citation",
+      "task_id": 1,
+      "title": "Context Engineering Guide: Techniques for AI Agents | LlamaIndex",
+      "url": "https://www.llamaindex.ai/blog/context-engineering-what-it-is-and-techniques-to-consider",
+      "snippet": "Although the principles behind the term ‘context engineering’ are not new, the wording is a useful abstraction that allows us to reason about the most pressing challenges when it comes to building effective AI agents. * **Global State/Context:** especially relevant to agents built with LlamaIndex, allowing us to use workflow `Context`  as a sort of scratchpad that we can store and retrieve global information across agent steps. Some combination of the above make up the context for the underlying LLM in practically all agentic AI applications now. With each iteration we have with an agent, if long-term memory is important to the use case, the agent will be retrieving additional context from it before deciding on the next best step. While context engineering focuses on optimizing what information goes into each LLM call, workflow engineering takes a step back to ask: *what sequence of LLM calls and non-LLM steps do we need to reliably complete this work?* Ultimately this allows us to optimize the context as well."
+    },
+    {
+      "type": "citation",
+      "task_id": 1,
+      "title": "Context Engineering for AI Agents Explained - Department of Product",
+      "url": "https://departmentofproduct.substack.com/p/context-engineering-for-ai-agents",
+      "snippet": "# Context Engineering for AI Agents Explained - a simple overview of the basics. In this Knowledge Series, we’ll take a closer look at this emerging new concept of context engineering. We’ll explore what it is, the different types of context that you can give AI Agents and why this matters to product teams building AI features. Context describes the process of building a system that can provide an LLM / AI Agent all of the relevant information and tools in the right formats it needs so that it can complete a task. AI agents can get context from multiple different sources including the engineer building the agents, the user, previous interactions or external data. Here’s a snapshot of each of the different types of context that are typically available to engineering teams working on developing AI-powered features or agents:. AI agents can be given access to multiple different types of context to improve their performance - and potentially reduce the number of tokens required to achieve their goals."
+    },
+    {
+      "type": "citation",
+      "task_id": 1,
+      "title": "Context Engineering for AI Agents: Lessons from the Trenches",
+      "url": "https://medium.com/@samuel.grummons/context-engineering-for-ai-agents-lessons-from-the-trenches-5b38dc175105",
+      "snippet": "# Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs)."
+    },
+    {
+      "type": "citation",
+      "task_id": 1,
+      "title": "Deep Dive into Context Engineering for Agents - Galileo AI",
+      "url": "https://galileo.ai/blog/context-engineering-for-agents",
+      "snippet": "By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails."
+    },
+    {
+      "type": "citation",
+      "task_id": 1,
+      "title": "What Is Context Engineering in AI Agents? A Practical Guide - Neo4j",
+      "url": "https://neo4j.com/blog/agentic-ai/what-is-context-engineering/",
+      "snippet": "Context is the set of inputs an agent can see and use to reason. Think of context as the kit you pack for a task at work: clear instructions,"
+    },
+    {
+      "type": "message_done",
+      "task_id": 1,
+      "title": "Background and definition",
+      "content": "Background and definition\n\nBased on the initial search, the following signals were found:\n- Context Engineering Guide: Techniques for AI Agents | LlamaIndex: Although the principles behind the term ‘context engineering’ are not new, the wording is a useful abstraction that allows us to reason about the most pressing challenges when it comes to building effective AI agents. * **Global State/Context:** especially relevant to agents built with LlamaIndex, allowing us to use workflow `Context`  as a sort of scratchpad that we can store and retrieve global information across agent steps. Some combination of the above make up the context for the underlying LLM in practically all agentic AI applications now. With each iteration we have with an agent, if long-term memory is important to the use case, the agent will be retrieving additional context from it before deciding on the next best step. While context engineering focuses on optimizing what information goes into each LLM call, workflow engineering takes a step back to ask: *what sequence of LLM calls and non-LLM steps do we need to reliably complete this work?* Ultimately this allows us to optimize the context as well.\n- Context Engineering for AI Agents Explained - Department of Product: # Context Engineering for AI Agents Explained - a simple overview of the basics. In this Knowledge Series, we’ll take a closer look at this emerging new concept of context engineering. We’ll explore what it is, the different types of context that you can give AI Agents and why this matters to product teams building AI features. Context describes the process of building a system that can provide an LLM / AI Agent all of the relevant information and tools in the right formats it needs so that it can complete a task. AI agents can get context from multiple different sources including the engineer building the agents, the user, previous interactions or external data. Here’s a snapshot of each of the different types of context that are typically available to engineering teams working on developing AI-powered features or agents:. AI agents can be given access to multiple different types of context to improve their performance - and potentially reduce the number of tokens required to achieve their goals.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).",
+      "note_id": "dd8a9ffb-3b24-4fa7-b9c0-810df5bceb1c"
+    },
+    {
+      "type": "tool_result",
+      "tool_name": "search",
+      "result": {
+        "ok": true,
+        "provider": "tavily",
+        "query": "AI agent context engineering Current progress and state",
+        "answer": "Context engineering enhances AI agent performance by optimizing memory, tool selection, and context management. It involves curating data, designing information architecture, and managing dynamic contexts. Current progress focuses on advanced techniques for improving agent efficiency and accuracy.",
+        "results": [
+          {
+            "title": "How to improve AI agent performance with context engineering",
+            "url": "https://www.glean.com/perspectives/how-to-improve-ai-agent-performance-with-context-engineering",
+            "snippet": "At its core, context engineering involves three critical components: data curation, information architecture, and dynamic context management.",
+            "score": 0.9999573
+          },
+          {
+            "title": "Deep Dive into Context Engineering for Agents - Galileo AI",
+            "url": "https://galileo.ai/blog/context-engineering-for-agents",
+            "snippet": "A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. Memory vs Context.",
+            "score": 0.99995124
+          },
+          {
+            "title": "Why Context Engineering? | Prompt Engineering Guide",
+            "url": "https://www.promptingguide.ai/agents/context-engineering",
+            "snippet": "Context engineering involves carefully crafting and refining the prompts, instructions, and constraints that guide an AI agent's behavior to",
+            "score": 0.99992335
+          },
+          {
+            "title": "Context Engineering Guide: Techniques for AI Agents | LlamaIndex",
+            "url": "https://www.llamaindex.ai/blog/context-engineering-what-it-is-and-techniques-to-consider",
+            "snippet": "Master AI agent design with context engineering. Explore advanced techniques for memory, tool selection, and context window optimization.",
+            "score": 0.99991655
+          },
+          {
+            "title": "Context engineering in agents - Docs by LangChain",
+            "url": "https://docs.langchain.com/oss/python/langchain/context-engineering",
+            "snippet": "Successful agents draw on memories, preferences, and configuration to provide the right instructions for the current state of the conversation. State. Store.",
+            "score": 0.9997695
+          }
+        ],
+        "response_time": 1.17
+      },
+      "task_id": 2
+    },
+    {
+      "type": "citation",
+      "task_id": 2,
+      "title": "How to improve AI agent performance with context engineering",
+      "url": "https://www.glean.com/perspectives/how-to-improve-ai-agent-performance-with-context-engineering",
+      "snippet": "At its core, context engineering involves three critical components: data curation, information architecture, and dynamic context management."
+    },
+    {
+      "type": "citation",
+      "task_id": 2,
+      "title": "Deep Dive into Context Engineering for Agents - Galileo AI",
+      "url": "https://galileo.ai/blog/context-engineering-for-agents",
+      "snippet": "A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. Memory vs Context."
+    },
+    {
+      "type": "citation",
+      "task_id": 2,
+      "title": "Why Context Engineering? | Prompt Engineering Guide",
+      "url": "https://www.promptingguide.ai/agents/context-engineering",
+      "snippet": "Context engineering involves carefully crafting and refining the prompts, instructions, and constraints that guide an AI agent's behavior to"
+    },
+    {
+      "type": "citation",
+      "task_id": 2,
+      "title": "Context Engineering Guide: Techniques for AI Agents | LlamaIndex",
+      "url": "https://www.llamaindex.ai/blog/context-engineering-what-it-is-and-techniques-to-consider",
+      "snippet": "Master AI agent design with context engineering. Explore advanced techniques for memory, tool selection, and context window optimization."
+    },
+    {
+      "type": "citation",
+      "task_id": 2,
+      "title": "Context engineering in agents - Docs by LangChain",
+      "url": "https://docs.langchain.com/oss/python/langchain/context-engineering",
+      "snippet": "Successful agents draw on memories, preferences, and configuration to provide the right instructions for the current state of the conversation. State. Store."
+    },
+    {
+      "type": "message_done",
+      "task_id": 2,
+      "title": "Current progress and state",
+      "content": "Current progress and state\n\nBased on the initial search, the following signals were found:\n- How to improve AI agent performance with context engineering: At its core, context engineering involves three critical components: data curation, information architecture, and dynamic context management.\n- Deep Dive into Context Engineering for Agents - Galileo AI: A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. Memory vs Context.\n- Why Context Engineering? | Prompt Engineering Guide: Context engineering involves carefully crafting and refining the prompts, instructions, and constraints that guide an AI agent's behavior to",
+      "note_id": "69a2dc58-1ec4-4a69-930c-832c215969cd"
+    },
+    {
+      "type": "tool_result",
+      "tool_name": "search",
+      "result": {
+        "ok": true,
+        "provider": "tavily",
+        "query": "AI agent context engineering Key players and case studies",
+        "answer": "Key players in AI agent context engineering include Manus AI, Cursor, Anthropic, and SearchUnify. Context engineering enhances agent performance by managing relevant data and reducing computational costs. It's crucial for multi-step task execution.",
+        "results": [
+          {
+            "title": "How Top AI Companies Handle Context Engineering - LinkedIn",
+            "url": "https://www.linkedin.com/pulse/how-top-ai-companies-handle-context-engineering-himanshu-sangshetti-qddof",
+            "snippet": "The companies building the most capable AI agents today: Manus AI , Cursor, Anthropic , OpenAI , Google DeepMind, LangChain in are all",
+            "score": 0.9999542
+          },
+          {
+            "title": "Real-World Context Engineering: Live Context for AI Agents - YouTube",
+            "url": "https://www.youtube.com/watch?v=77zct30W22Y",
+            "snippet": "... AI agents, why infrastructure discipline is so important. The Millennium Alliance | #millenniumlive | Materialize.",
+            "score": 0.99972624
+          },
+          {
+            "title": "Deep Dive into Context Engineering for Agents - Galileo AI",
+            "url": "https://galileo.ai/blog/context-engineering-for-agents",
+            "snippet": "By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails.",
+            "score": 0.99931216
+          },
+          {
+            "title": "Context Engineering for Coding Agents - Martin Fowler",
+            "url": "https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html",
+            "snippet": "# Context Engineering for Coding Agents. For coding agents, there is an emerging set of context engineering approaches and terms. This memo is a primer about the current state of context configuration features, using Claude Code as an example at the end. ## What is context in coding agents? “Everything is context” - however, these are the main categories I think of as context configuration in coding agents. * **LLM**: Allowing the LLM to decide when to load context is a prerequisite for running agents in an unsupervised way. But it’s not all up to us, some coding agent tools are also better at optimising context under the hood than others. **When to use:** Common tasks (review, commit, test, …) that you have a specific longer prompt for, and that you want to trigger yourself, inside the main context *DEPRECATED in Claude Code, superceded by Skills*. Context engineering can definitely make a coding agent more effective and increase the probability of useful results quite a bit.",
+            "score": 0.9992792
+          },
+          {
+            "title": "Context Engineering: Pivotal for Top AI Agents - SearchUnify",
+            "url": "https://www.searchunify.com/resource-center/sudo-technical-blogs/the-role-of-context-engineering-in-ai-agents/",
+            "snippet": "Resource Center > Technical Blogs > The Role of Context Engineering in AI Agents. # The Role of Context Engineering in AI Agents. Context engineering is the discipline of designing AI systems that continuously provide agents with the right context, including relevant data, conversation history, user intent, and system state. In practice, context engineering involves constructing and managing the information an AI agent depends on to operate. ## Why Context Engineering is Foundational for Building Top AI Agents. AI Agents that operate without context engineering may overload the model with unnecessary data or repeatedly request information, increasing computational cost and latency. ## Putting Context Engineering into Action with SearchUnify Agentic AI Suite. This is where SearchUnify Agentic AI suite puts context engineering into action across customer support workflows. By operationalizing context engineering at scale, SearchUnify enables enterprise-ready AI agents that deliver consistent outcomes across complex support workflows. * AI Agents Context Engineering Customer Service Customer Support.",
+            "score": 0.9990527
+          }
+        ],
+        "response_time": 1.16
+      },
+      "task_id": 3
+    },
+    {
+      "type": "citation",
+      "task_id": 3,
+      "title": "How Top AI Companies Handle Context Engineering - LinkedIn",
+      "url": "https://www.linkedin.com/pulse/how-top-ai-companies-handle-context-engineering-himanshu-sangshetti-qddof",
+      "snippet": "The companies building the most capable AI agents today: Manus AI , Cursor, Anthropic , OpenAI , Google DeepMind, LangChain in are all"
+    },
+    {
+      "type": "citation",
+      "task_id": 3,
+      "title": "Real-World Context Engineering: Live Context for AI Agents - YouTube",
+      "url": "https://www.youtube.com/watch?v=77zct30W22Y",
+      "snippet": "... AI agents, why infrastructure discipline is so important. The Millennium Alliance | #millenniumlive | Materialize."
+    },
+    {
+      "type": "citation",
+      "task_id": 3,
+      "title": "Deep Dive into Context Engineering for Agents - Galileo AI",
+      "url": "https://galileo.ai/blog/context-engineering-for-agents",
+      "snippet": "By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails."
+    },
+    {
+      "type": "citation",
+      "task_id": 3,
+      "title": "Context Engineering for Coding Agents - Martin Fowler",
+      "url": "https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html",
+      "snippet": "# Context Engineering for Coding Agents. For coding agents, there is an emerging set of context engineering approaches and terms. This memo is a primer about the current state of context configuration features, using Claude Code as an example at the end. ## What is context in coding agents? “Everything is context” - however, these are the main categories I think of as context configuration in coding agents. * **LLM**: Allowing the LLM to decide when to load context is a prerequisite for running agents in an unsupervised way. But it’s not all up to us, some coding agent tools are also better at optimising context under the hood than others. **When to use:** Common tasks (review, commit, test, …) that you have a specific longer prompt for, and that you want to trigger yourself, inside the main context *DEPRECATED in Claude Code, superceded by Skills*. Context engineering can definitely make a coding agent more effective and increase the probability of useful results quite a bit."
+    },
+    {
+      "type": "citation",
+      "task_id": 3,
+      "title": "Context Engineering: Pivotal for Top AI Agents - SearchUnify",
+      "url": "https://www.searchunify.com/resource-center/sudo-technical-blogs/the-role-of-context-engineering-in-ai-agents/",
+      "snippet": "Resource Center > Technical Blogs > The Role of Context Engineering in AI Agents. # The Role of Context Engineering in AI Agents. Context engineering is the discipline of designing AI systems that continuously provide agents with the right context, including relevant data, conversation history, user intent, and system state. In practice, context engineering involves constructing and managing the information an AI agent depends on to operate. ## Why Context Engineering is Foundational for Building Top AI Agents. AI Agents that operate without context engineering may overload the model with unnecessary data or repeatedly request information, increasing computational cost and latency. ## Putting Context Engineering into Action with SearchUnify Agentic AI Suite. This is where SearchUnify Agentic AI suite puts context engineering into action across customer support workflows. By operationalizing context engineering at scale, SearchUnify enables enterprise-ready AI agents that deliver consistent outcomes across complex support workflows. * AI Agents Context Engineering Customer Service Customer Support."
+    },
+    {
+      "type": "message_done",
+      "task_id": 3,
+      "title": "Key players and case studies",
+      "content": "Key players and case studies\n\nBased on the initial search, the following signals were found:\n- How Top AI Companies Handle Context Engineering - LinkedIn: The companies building the most capable AI agents today: Manus AI , Cursor, Anthropic , OpenAI , Google DeepMind, LangChain in are all\n- Real-World Context Engineering: Live Context for AI Agents - YouTube: ... AI agents, why infrastructure discipline is so important. The Millennium Alliance | #millenniumlive | Materialize.\n- Deep Dive into Context Engineering for Agents - Galileo AI: By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails.",
+      "note_id": "90cd83c6-5ded-47b4-89e2-d46967d57bb1"
+    },
+    {
+      "type": "tool_result",
+      "tool_name": "search",
+      "result": {
+        "ok": true,
+        "provider": "tavily",
+        "query": "AI agent context engineering Challenges and outlook",
+        "answer": "Context engineering in AI involves providing agents with relevant information to make informed decisions, but challenges like data coherence and scalability hinder its adoption. The future of AI depends on overcoming these context engineering hurdles.",
+        "results": [
+          {
+            "title": "Why 'Context Engineering' is the New Frontier for AI Agents - Vellum AI",
+            "url": "https://www.vellum.ai/blog/context-is-king-why-context-engineering-is-the-new-frontier-for-ai-agents",
+            "snippet": "# Why ‘Context Engineering’ is the New Frontier for AI Agents. The debate kicked off when Cognition, the company behind the AI coding agent Devin, posted a blog arguing that multi-agent architectures are a \"tempting idea\" that is \"quite bad in practice.\" They advocate instead for a single-agent approach powered by what they call “Context Engineering.”. To understand why Context Engineering is causing a stir, we first need to understand the dominant paradigm for building complex agents: the multi-agent system. If prompt engineering is the art of crafting the perfect initial instruction, Context Engineering is the discipline of dynamically managing the entirety of information an agent sees at every step of a complex task. Even a single AI agent needs to retrieve information (a form of context), and a multi-agent system is useless if the individual agents have poor context. A top-level \"Context Engineer\" agent will manage the overall task. Crucially, each of these temporary agents will itself benefit from meticulously engineered context.",
+            "score": 0.9999505
+          },
+          {
+            "title": "Context Engineering for AI Agents: Lessons from the Trenches",
+            "url": "https://medium.com/@samuel.grummons/context-engineering-for-ai-agents-lessons-from-the-trenches-5b38dc175105",
+            "snippet": "# Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).",
+            "score": 0.9999385
+          },
+          {
+            "title": "6 Context Engineering Challenges : r/ContextEngineering - Reddit",
+            "url": "https://www.reddit.com/r/ContextEngineering/comments/1m7jpfr/6_context_engineering_challenges/",
+            "snippet": "Beyond single interactions, AI agents struggle with complex multi-step tasks because current context windows can't maintain coherent",
+            "score": 0.99993694
+          },
+          {
+            "title": "How to improve AI agent performance with context engineering",
+            "url": "https://www.glean.com/perspectives/how-to-improve-ai-agent-performance-with-context-engineering",
+            "snippet": "The challenge lies not in making AI agents more autonomous, but in providing them with the right context to make informed decisions. AI agent",
+            "score": 0.99992514
+          },
+          {
+            "title": "The 6 context engineering challenges stopping AI from scaling in ...",
+            "url": "https://langwatch.ai/blog/the-6-context-engineering-challenges-stopping-ai-from-scaling-in-production",
+            "snippet": "# The 6 context engineering challenges stopping AI from scaling in production. The answer lies in **context engineering**—the process of supplying AI systems with the right information, at the right time, and in the right format to deliver reliable outputs. While context engineering promises to bridge raw enterprise data with large language models (LLMs), it has also become the **critical bottleneck for enterprise AI adoption**. ## Why context engineering challenges define the guture of Enterprise AI. The future of enterprise AI will be defined by how teams solve context engineering. At LangWatch, we focus on **evaluation, observability, and AI agent testing**, the critical layer that makes context engineering scalable. By addressing these context engineering challenges directly, LangWatch helps enterprises move from **AI experiments to confident AI releases.**. What is context engineering in AI? * **Context engineering** builds scalable systems that deliver the right information to the model across many interactions, data sources, and long workflows. How can enterprises test if their AI context pipelines are reliable?",
+            "score": 0.9999039
+          }
+        ],
+        "response_time": 1.43
+      },
+      "task_id": 4
+    },
+    {
+      "type": "citation",
+      "task_id": 4,
+      "title": "Why 'Context Engineering' is the New Frontier for AI Agents - Vellum AI",
+      "url": "https://www.vellum.ai/blog/context-is-king-why-context-engineering-is-the-new-frontier-for-ai-agents",
+      "snippet": "# Why ‘Context Engineering’ is the New Frontier for AI Agents. The debate kicked off when Cognition, the company behind the AI coding agent Devin, posted a blog arguing that multi-agent architectures are a \"tempting idea\" that is \"quite bad in practice.\" They advocate instead for a single-agent approach powered by what they call “Context Engineering.”. To understand why Context Engineering is causing a stir, we first need to understand the dominant paradigm for building complex agents: the multi-agent system. If prompt engineering is the art of crafting the perfect initial instruction, Context Engineering is the discipline of dynamically managing the entirety of information an agent sees at every step of a complex task. Even a single AI agent needs to retrieve information (a form of context), and a multi-agent system is useless if the individual agents have poor context. A top-level \"Context Engineer\" agent will manage the overall task. Crucially, each of these temporary agents will itself benefit from meticulously engineered context."
+    },
+    {
+      "type": "citation",
+      "task_id": 4,
+      "title": "Context Engineering for AI Agents: Lessons from the Trenches",
+      "url": "https://medium.com/@samuel.grummons/context-engineering-for-ai-agents-lessons-from-the-trenches-5b38dc175105",
+      "snippet": "# Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs)."
+    },
+    {
+      "type": "citation",
+      "task_id": 4,
+      "title": "6 Context Engineering Challenges : r/ContextEngineering - Reddit",
+      "url": "https://www.reddit.com/r/ContextEngineering/comments/1m7jpfr/6_context_engineering_challenges/",
+      "snippet": "Beyond single interactions, AI agents struggle with complex multi-step tasks because current context windows can't maintain coherent"
+    },
+    {
+      "type": "citation",
+      "task_id": 4,
+      "title": "How to improve AI agent performance with context engineering",
+      "url": "https://www.glean.com/perspectives/how-to-improve-ai-agent-performance-with-context-engineering",
+      "snippet": "The challenge lies not in making AI agents more autonomous, but in providing them with the right context to make informed decisions. AI agent"
+    },
+    {
+      "type": "citation",
+      "task_id": 4,
+      "title": "The 6 context engineering challenges stopping AI from scaling in ...",
+      "url": "https://langwatch.ai/blog/the-6-context-engineering-challenges-stopping-ai-from-scaling-in-production",
+      "snippet": "# The 6 context engineering challenges stopping AI from scaling in production. The answer lies in **context engineering**—the process of supplying AI systems with the right information, at the right time, and in the right format to deliver reliable outputs. While context engineering promises to bridge raw enterprise data with large language models (LLMs), it has also become the **critical bottleneck for enterprise AI adoption**. ## Why context engineering challenges define the guture of Enterprise AI. The future of enterprise AI will be defined by how teams solve context engineering. At LangWatch, we focus on **evaluation, observability, and AI agent testing**, the critical layer that makes context engineering scalable. By addressing these context engineering challenges directly, LangWatch helps enterprises move from **AI experiments to confident AI releases.**. What is context engineering in AI? * **Context engineering** builds scalable systems that deliver the right information to the model across many interactions, data sources, and long workflows. How can enterprises test if their AI context pipelines are reliable?"
+    },
+    {
+      "type": "message_done",
+      "task_id": 4,
+      "title": "Challenges and outlook",
+      "content": "Challenges and outlook\n\nBased on the initial search, the following signals were found:\n- Why 'Context Engineering' is the New Frontier for AI Agents - Vellum AI: # Why ‘Context Engineering’ is the New Frontier for AI Agents. The debate kicked off when Cognition, the company behind the AI coding agent Devin, posted a blog arguing that multi-agent architectures are a \"tempting idea\" that is \"quite bad in practice.\" They advocate instead for a single-agent approach powered by what they call “Context Engineering.”. To understand why Context Engineering is causing a stir, we first need to understand the dominant paradigm for building complex agents: the multi-agent system. If prompt engineering is the art of crafting the perfect initial instruction, Context Engineering is the discipline of dynamically managing the entirety of information an agent sees at every step of a complex task. Even a single AI agent needs to retrieve information (a form of context), and a multi-agent system is useless if the individual agents have poor context. A top-level \"Context Engineer\" agent will manage the overall task. Crucially, each of these temporary agents will itself benefit from meticulously engineered context.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).\n- 6 Context Engineering Challenges : r/ContextEngineering - Reddit: Beyond single interactions, AI agents struggle with complex multi-step tasks because current context windows can't maintain coherent",
+      "note_id": "a7f36ead-b4ae-426c-a21d-d67172739c35"
+    },
+    {
+      "type": "status",
+      "message": "writing final report"
+    },
+    {
+      "type": "message_done",
+      "content": "# AI agent context engineering\n\n## Overview\nThis report covers the topic `AI agent context engineering` through the tasks below.\n\n## Background and definition\nBackground and definition\n\nBased on the initial search, the following signals were found:\n- Context Engineering Guide: Techniques for AI Agents | LlamaIndex: Although the principles behind the term ‘context engineering’ are not new, the wording is a useful abstraction that allows us to reason about the most pressing challenges when it comes to building effective AI agents. * **Global State/Context:** especially relevant to agents built with LlamaIndex, allowing us to use workflow `Context`  as a sort of scratchpad that we can store and retrieve global information across agent steps. Some combination of the above make up the context for the underlying LLM in practically all agentic AI applications now. With each iteration we have with an agent, if long-term memory is important to the use case, the agent will be retrieving additional context from it before deciding on the next best step. While context engineering focuses on optimizing what information goes into each LLM call, workflow engineering takes a step back to ask: *what sequence of LLM calls and non-LLM steps do we need to reliably complete this work?* Ultimately this allows us to optimize the context as well.\n- Context Engineering for AI Agents Explained - Department of Product: # Context Engineering for AI Agents Explained - a simple overview of the basics. In this Knowledge Series, we’ll take a closer look at this emerging new concept of context engineering. We’ll explore what it is, the different types of context that you can give AI Agents and why this matters to product teams building AI features. Context describes the process of building a system that can provide an LLM / AI Agent all of the relevant information and tools in the right formats it needs so that it can complete a task. AI agents can get context from multiple different sources including the engineer building the agents, the user, previous interactions or external data. Here’s a snapshot of each of the different types of context that are typically available to engineering teams working on developing AI-powered features or agents:. AI agents can be given access to multiple different types of context to improve their performance - and potentially reduce the number of tokens required to achieve their goals.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).\n\n## Current progress and state\nCurrent progress and state\n\nBased on the initial search, the following signals were found:\n- How to improve AI agent performance with context engineering: At its core, context engineering involves three critical components: data curation, information architecture, and dynamic context management.\n- Deep Dive into Context Engineering for Agents - Galileo AI: A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. Memory vs Context.\n- Why Context Engineering? | Prompt Engineering Guide: Context engineering involves carefully crafting and refining the prompts, instructions, and constraints that guide an AI agent's behavior to\n\n## Key players and case studies\nKey players and case studies\n\nBased on the initial search, the following signals were found:\n- How Top AI Companies Handle Context Engineering - LinkedIn: The companies building the most capable AI agents today: Manus AI , Cursor, Anthropic , OpenAI , Google DeepMind, LangChain in are all\n- Real-World Context Engineering: Live Context for AI Agents - YouTube: ... AI agents, why infrastructure discipline is so important. The Millennium Alliance | #millenniumlive | Materialize.\n- Deep Dive into Context Engineering for Agents - Galileo AI: By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails.\n\n## Challenges and outlook\nChallenges and outlook\n\nBased on the initial search, the following signals were found:\n- Why 'Context Engineering' is the New Frontier for AI Agents - Vellum AI: # Why ‘Context Engineering’ is the New Frontier for AI Agents. The debate kicked off when Cognition, the company behind the AI coding agent Devin, posted a blog arguing that multi-agent architectures are a \"tempting idea\" that is \"quite bad in practice.\" They advocate instead for a single-agent approach powered by what they call “Context Engineering.”. To understand why Context Engineering is causing a stir, we first need to understand the dominant paradigm for building complex agents: the multi-agent system. If prompt engineering is the art of crafting the perfect initial instruction, Context Engineering is the discipline of dynamically managing the entirety of information an agent sees at every step of a complex task. Even a single AI agent needs to retrieve information (a form of context), and a multi-agent system is useless if the individual agents have poor context. A top-level \"Context Engineer\" agent will manage the overall task. Crucially, each of these temporary agents will itself benefit from meticulously engineered context.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).\n- 6 Context Engineering Challenges : r/ContextEngineering - Reddit: Beyond single interactions, AI agents struggle with complex multi-step tasks because current context windows can't maintain coherent\n\n## Conclusion\nThis is a V1 auto-generated report. Retrieval and citation quality can be improved further.",
+      "report": "# AI agent context engineering\n\n## Overview\nThis report covers the topic `AI agent context engineering` through the tasks below.\n\n## Background and definition\nBackground and definition\n\nBased on the initial search, the following signals were found:\n- Context Engineering Guide: Techniques for AI Agents | LlamaIndex: Although the principles behind the term ‘context engineering’ are not new, the wording is a useful abstraction that allows us to reason about the most pressing challenges when it comes to building effective AI agents. * **Global State/Context:** especially relevant to agents built with LlamaIndex, allowing us to use workflow `Context`  as a sort of scratchpad that we can store and retrieve global information across agent steps. Some combination of the above make up the context for the underlying LLM in practically all agentic AI applications now. With each iteration we have with an agent, if long-term memory is important to the use case, the agent will be retrieving additional context from it before deciding on the next best step. While context engineering focuses on optimizing what information goes into each LLM call, workflow engineering takes a step back to ask: *what sequence of LLM calls and non-LLM steps do we need to reliably complete this work?* Ultimately this allows us to optimize the context as well.\n- Context Engineering for AI Agents Explained - Department of Product: # Context Engineering for AI Agents Explained - a simple overview of the basics. In this Knowledge Series, we’ll take a closer look at this emerging new concept of context engineering. We’ll explore what it is, the different types of context that you can give AI Agents and why this matters to product teams building AI features. Context describes the process of building a system that can provide an LLM / AI Agent all of the relevant information and tools in the right formats it needs so that it can complete a task. AI agents can get context from multiple different sources including the engineer building the agents, the user, previous interactions or external data. Here’s a snapshot of each of the different types of context that are typically available to engineering teams working on developing AI-powered features or agents:. AI agents can be given access to multiple different types of context to improve their performance - and potentially reduce the number of tokens required to achieve their goals.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).\n\n## Current progress and state\nCurrent progress and state\n\nBased on the initial search, the following signals were found:\n- How to improve AI agent performance with context engineering: At its core, context engineering involves three critical components: data curation, information architecture, and dynamic context management.\n- Deep Dive into Context Engineering for Agents - Galileo AI: A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. Memory vs Context.\n- Why Context Engineering? | Prompt Engineering Guide: Context engineering involves carefully crafting and refining the prompts, instructions, and constraints that guide an AI agent's behavior to\n\n## Key players and case studies\nKey players and case studies\n\nBased on the initial search, the following signals were found:\n- How Top AI Companies Handle Context Engineering - LinkedIn: The companies building the most capable AI agents today: Manus AI , Cursor, Anthropic , OpenAI , Google DeepMind, LangChain in are all\n- Real-World Context Engineering: Live Context for AI Agents - YouTube: ... AI agents, why infrastructure discipline is so important. The Millennium Alliance | #millenniumlive | Materialize.\n- Deep Dive into Context Engineering for Agents - Galileo AI: By 2024, as agents began tackling multi-step tasks, \"context engineering\" emerged as a distinct discipline. A typical agent tasks require around 50 tool calls, accumulating massive contexts that can make or break system performance. **Context is your agent's working memory**. ## **Types of Context in Agent Systems**. **Knowledge Context** encompasses facts, memories, retrieved documents, and user preferences that inform the agent's decisions. **Tools Context** contains tool descriptions, feedback from tool calls, and error messages that enable the agent to interact with external systems. As the Agent Leaderboard shows, models perform poorly when given multiple tools, making tool context management critical for performance. The Manus team discovered that agents naturally create `todo.md` files as an offloading pattern, maintaining task state externally while keeping the context focused. Context Isolation (Multi-Agent Systems)**. * **Retrieval Quality**: Measure how effectively agents access and utilize retrieved context. Set up custom filters to monitor specific context-related events, such as when agents ignore provided context or when retrieval fails.\n\n## Challenges and outlook\nChallenges and outlook\n\nBased on the initial search, the following signals were found:\n- Why 'Context Engineering' is the New Frontier for AI Agents - Vellum AI: # Why ‘Context Engineering’ is the New Frontier for AI Agents. The debate kicked off when Cognition, the company behind the AI coding agent Devin, posted a blog arguing that multi-agent architectures are a \"tempting idea\" that is \"quite bad in practice.\" They advocate instead for a single-agent approach powered by what they call “Context Engineering.”. To understand why Context Engineering is causing a stir, we first need to understand the dominant paradigm for building complex agents: the multi-agent system. If prompt engineering is the art of crafting the perfect initial instruction, Context Engineering is the discipline of dynamically managing the entirety of information an agent sees at every step of a complex task. Even a single AI agent needs to retrieve information (a form of context), and a multi-agent system is useless if the individual agents have poor context. A top-level \"Context Engineer\" agent will manage the overall task. Crucially, each of these temporary agents will itself benefit from meticulously engineered context.\n- Context Engineering for AI Agents: Lessons from the Trenches: # Context Engineering for AI Agents: Lessons from the Trenches | by Samuel Grummons | Medium. I’ve spent the last few months building AI agents that needed to be deeply personal — agents that could remember your preferences, understand your context, and respond as if they’d been working with you for months. Here’s what really broke my original approach: I needed some context to be cached for cost reasons (the foundation that rarely changes), while other context needed to be fresh every conversation turn (the user’s current state, recent activity, temporal information). Every conversation starts by loading the user profile via a “silent” tool call — it happens automatically, not at the AI’s discretion. Now the AI can make intelligent decisions about what context to refresh based on the conversation topic and data age. **Design principle**: Make context loading deterministic (same information architecture every conversation), but let AI decisions remain flexible (what additional data to retrieve based on conversation needs).\n- 6 Context Engineering Challenges : r/ContextEngineering - Reddit: Beyond single interactions, AI agents struggle with complex multi-step tasks because current context windows can't maintain coherent\n\n## Conclusion\nThis is a V1 auto-generated report. Retrieval and citation quality can be improved further."
+    }
+  ],
+  "created_at": "2026-03-30T02:26:49.369135+00:00",
+  "updated_at": "2026-03-30T02:26:49.369135+00:00"
+}

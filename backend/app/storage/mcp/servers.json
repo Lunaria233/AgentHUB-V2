@@ -1,0 +1,26 @@
+{
+  "servers": [
+    {
+      "server_name": "amap-maps",
+      "enabled": true,
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@amap/amap-maps-mcp-server"
+      ],
+      "url": "",
+      "env": {
+        "AMAP_MAPS_API_KEY": "e022a752a197b6ff83ea42bdca4adba3"
+      },
+      "headers": {},
+      "description": "",
+      "request_timeout_seconds": 20.0,
+      "startup_timeout_seconds": 15.0,
+      "allowed_app_ids": [
+        "chat"
+      ],
+      "source": "custom"
+    }
+  ]
+}
