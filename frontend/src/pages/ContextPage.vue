@@ -33,6 +33,7 @@
               <select v-model="selectedAppId">
                 <option value="chat">聊天助手</option>
                 <option value="deep_research">深度研究</option>
+                <option value="software_engineering">软件工程智能体</option>
               </select>
             </label>
             <label class="field">
@@ -242,10 +243,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { explainContext, runContextEval, type ContextEvalSummary, type ContextExplainResult } from "../services/api";
 
-const selectedAppId = ref<"chat" | "deep_research">("chat");
+const selectedAppId = ref<"chat" | "deep_research" | "software_engineering">("chat");
 const selectedStage = ref("chat.reply");
 const sessionId = ref("context-inspect");
 const userId = ref("context-user");
@@ -257,11 +258,17 @@ const activeTab = ref<"overview" | "packets" | "prompt" | "eval">("overview");
 const explainResult = ref<ContextExplainResult | null>(null);
 const evalSummary = ref<ContextEvalSummary | null>(null);
 
-const stageOptions = computed(() =>
-  selectedAppId.value === "chat"
-    ? ["chat.reply"]
-    : ["research.plan", "research.summarize", "research.report"]
-);
+const stageOptions = computed(() => {
+  if (selectedAppId.value === "chat") return ["chat.reply"];
+  if (selectedAppId.value === "deep_research") return ["research.plan", "research.summarize", "research.report"];
+  return ["se.plan", "se.retrieve", "se.code", "se.diagnose", "se.report"];
+});
+
+watch(selectedAppId, () => {
+  if (!stageOptions.value.includes(selectedStage.value)) {
+    selectedStage.value = stageOptions.value[0] || "chat.reply";
+  }
+});
 
 const sourceBudgets = computed<Record<string, number>>(() => (explainResult.value?.diagnostics.source_budgets as Record<string, number>) || {});
 const sourceSummary = computed<Record<string, { gathered: number; selected: number; compressed: number; tokens: number }>>(

@@ -40,7 +40,7 @@ class MCPGetPromptRequest(BaseModel):
 
 class MCPImportRequest(BaseModel):
     config_text: str = Field(min_length=2)
-    allowed_app_ids: list[str] = Field(default_factory=lambda: ["chat"])
+    allowed_app_ids: list[str] = Field(default_factory=list)
     enabled: bool = True
 
 
@@ -402,7 +402,25 @@ def call_mcp_tool(request: MCPCallRequest) -> dict[str, object]:
         raise HTTPException(status_code=403, detail=f"MCP tool '{request.tool_name}' is not allowed for app '{request.app_id}'")
     result = orchestrator.mcp_manager.call_tool(request.server_name, request.tool_name, dict(request.arguments))
     if not result.get("ok", False):
-        raise HTTPException(status_code=400, detail=result.get("error", "MCP tool call failed"))
+        error_detail = str(result.get("error", "")).strip()
+        if not error_detail:
+            error_detail = str(result.get("text", "")).strip()
+        if not error_detail:
+            raw = result.get("raw")
+            if isinstance(raw, dict):
+                content = raw.get("content")
+                if isinstance(content, list):
+                    text_parts: list[str] = []
+                    for item in content:
+                        if isinstance(item, dict) and str(item.get("type", "")) == "text":
+                            text = str(item.get("text", "")).strip()
+                            if text:
+                                text_parts.append(text)
+                    if text_parts:
+                        error_detail = "\n".join(text_parts)
+        if not error_detail:
+            error_detail = "MCP tool call failed"
+        raise HTTPException(status_code=400, detail=error_detail)
     return result
 
 
@@ -435,9 +453,26 @@ def get_mcp_prompt(request: MCPGetPromptRequest) -> dict[str, object]:
     allowed_prompts = set(_profile_for_app(request.app_id).allowed_prompts)
     if allowed_prompts and request.prompt_name not in allowed_prompts:
         raise HTTPException(status_code=403, detail=f"MCP prompt '{request.prompt_name}' is not allowed for app '{request.app_id}'")
+    prompt_descriptors = orchestrator.mcp_manager.discover_prompts(request.server_name, refresh=False)
+    if not prompt_descriptors:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                f"MCP server '{request.server_name}' does not expose prompts "
+                "(prompts/list unsupported or empty)."
+            ),
+        )
+    if request.prompt_name not in {item.name for item in prompt_descriptors}:
+        raise HTTPException(
+            status_code=400,
+            detail=f"MCP prompt '{request.prompt_name}' was not found on server '{request.server_name}'",
+        )
     result = orchestrator.mcp_manager.get_prompt(request.server_name, request.prompt_name, dict(request.arguments))
     if result is None:
-        raise HTTPException(status_code=400, detail="MCP prompt retrieval failed")
+        raise HTTPException(
+            status_code=400,
+            detail=f"MCP prompt retrieval failed for '{request.prompt_name}'. The server may not implement prompts/get.",
+        )
     return {
         "server_name": result.server_name,
         "prompt_name": result.prompt_name,

@@ -8,6 +8,7 @@ import RagPage from "./pages/RagPage.vue";
 import MCPPage from "./pages/MCPPage.vue";
 import SkillsPage from "./pages/SkillsPage.vue";
 import ContextPage from "./pages/ContextPage.vue";
+import SoftwareEngineeringPage from "./pages/SoftwareEngineeringPage.vue";
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -19,7 +20,8 @@ export const router = createRouter({
     { path: "/rag", name: "rag", component: RagPage },
     { path: "/mcp", name: "mcp", component: MCPPage },
     { path: "/skills", name: "skills", component: SkillsPage },
-    { path: "/context", name: "context", component: ContextPage }
+    { path: "/context", name: "context", component: ContextPage },
+    { path: "/software-engineering/:sessionId?", name: "software-engineering", component: SoftwareEngineeringPage, props: true }
   ],
   scrollBehavior() {
     return { top: 0 };

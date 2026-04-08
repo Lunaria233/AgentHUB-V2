@@ -663,7 +663,10 @@ def get_settings() -> Settings:
             provider=_env("LLM_PROVIDER", str(_get_nested(toml_config, "model.provider", "openai_compat"))),
             base_url=_env("LLM_BASE_URL", str(_get_nested(toml_config, "model.base_url", "https://api.openai.com/v1"))),
             api_key=_env("LLM_API_KEY", str(_get_nested(toml_config, "model.api_key", "")), allow_blank=True),
-            model=_env("LLM_MODEL", str(_get_nested(toml_config, "model.model", "gpt-4o-mini"))),
+            model=_env(
+                "LLM_MODEL_ID",
+                _env("LLM_MODEL", str(_get_nested(toml_config, "model.model", "gpt-4o-mini"))),
+            ),
             timeout_seconds=_env_float("LLM_TIMEOUT_SECONDS", float(_get_nested(toml_config, "model.timeout_seconds", 60))),
             temperature=_env_float("LLM_TEMPERATURE", float(_get_nested(toml_config, "model.temperature", 0.2))),
         ),

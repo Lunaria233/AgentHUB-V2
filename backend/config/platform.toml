@@ -170,8 +170,28 @@ knowledge_scopes = ["deep_research"]
 history = true
 memory = true
 rag = true
-mcp = false
-skills = false
+mcp = true
+skills = true
+notes = true
+streaming = true
+workflow = true
+
+[apps.software_engineering]
+enabled = true
+default_model = ""
+history_limit = 12
+tool_iterations = 4
+search_max_results = 6
+allowed_tools = ["repo_search_tool", "file_read_tool", "patch_write_tool", "command_run_tool", "dependency_tool", "note", "search"]
+allowed_mcp_servers = ["demo"]
+knowledge_scopes = ["software_engineering"]
+
+[apps.software_engineering.capabilities]
+history = true
+memory = true
+rag = true
+mcp = true
+skills = true
 notes = true
 streaming = true
 workflow = true

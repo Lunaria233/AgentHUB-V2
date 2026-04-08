@@ -18,6 +18,34 @@
       "request_timeout_seconds": 20.0,
       "startup_timeout_seconds": 15.0,
       "allowed_app_ids": [
+        "chat",
+        "deep_research",
+        "software_engineering"
+      ],
+      "source": "custom"
+    },
+    {
+      "server_name": "python-interpreter",
+      "enabled": true,
+      "transport": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-python-interpreter",
+        "--dir",
+        "C:/Users/17341/Downloads/hello-agents-main/agent-platform-v1",
+        "--python-path",
+        "C:/Users/17341/AppData/Local/Programs/Python/Python311/python.exe"
+      ],
+      "url": "",
+      "env": {
+        "MCP_ALLOW_SYSTEM_ACCESS": "0"
+      },
+      "headers": {},
+      "description": "",
+      "request_timeout_seconds": 20.0,
+      "startup_timeout_seconds": 15.0,
+      "allowed_app_ids": [
+        "software_engineering",
         "chat"
       ],
       "source": "custom"

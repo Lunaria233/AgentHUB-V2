@@ -9,6 +9,9 @@ from app.apps.chat.prompts import CHAT_SYSTEM_PROMPT
 from app.apps.deep_research.archive import ResearchRunStore
 from app.apps.deep_research.agent import DeepResearchRuntimeFactory
 from app.apps.deep_research.prompts import PLANNER_PROMPT, REPORTER_PROMPT, SUMMARIZER_PROMPT
+from app.apps.software_engineering.agent import SoftwareEngineeringRuntimeFactory
+from app.apps.software_engineering.archive import SERunStore
+from app.apps.software_engineering.tools import build_software_engineering_tools
 from app.config import get_settings
 from app.platform.apps.registry import get_app_registry
 from app.platform.apps.profiles import ContextProfile
@@ -111,6 +114,7 @@ class AppOrchestrator:
         )
         self.note_store = FileNoteStore(settings.notes_path)
         self.research_run_store = ResearchRunStore(settings.research_runs_path)
+        self.se_run_store = SERunStore(settings.storage.root / "se_runs")
         self.skills_root = Path(__file__).resolve().parents[4] / "skills"
         self.skill_loader = SkillFileLoader(self.skills_root)
         self.skill_registry = SkillRegistry(self.skill_loader)
@@ -122,6 +126,7 @@ class AppOrchestrator:
         self.runtime_factories = RuntimeFactoryRegistry()
         self.runtime_factories.register(ChatRuntimeFactory())
         self.runtime_factories.register(DeepResearchRuntimeFactory())
+        self.runtime_factories.register(SoftwareEngineeringRuntimeFactory())
         if settings.mcp.enabled:
             for server in settings.mcp.enabled_servers():
                 self._register_settings_server(server)
@@ -221,6 +226,11 @@ class AppOrchestrator:
             )
         if "note" in manifest.permissions.allowed_tools:
             registry.register(BuiltinNoteTool(self.note_store))
+        if app_id == "software_engineering":
+            se_repo_root = Path(__file__).resolve().parents[4]
+            for tool in build_software_engineering_tools(se_repo_root):
+                if tool.name in manifest.permissions.allowed_tools:
+                    registry.register(tool)
         if manifest.capabilities.mcp and self.settings.mcp.enabled and mcp_profile.enabled:
             allowed_servers = self.get_allowed_mcp_servers(app_id)
             allowed_tools = set(mcp_profile.allowed_tools)
@@ -528,7 +538,12 @@ class AppOrchestrator:
             tool_executor=tool_executor,
             trace_service=self.trace_service,
             settings=self.settings,
-            dependencies={"research_run_store": self.research_run_store, "mcp_manager": self.mcp_manager},
+            dependencies={
+                "research_run_store": self.research_run_store,
+                "mcp_manager": self.mcp_manager,
+                "se_run_store": self.se_run_store,
+                "repo_root": Path(__file__).resolve().parents[4],
+            },
         )
         return self.runtime_factories.create(manifest.runtime_factory, build_context)
 

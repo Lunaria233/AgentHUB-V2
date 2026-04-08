@@ -2,16 +2,15 @@
   <section class="page-stack mcp-page">
     <header class="surface-card mcp-hero">
       <div>
-        <p class="eyebrow">MCP Workbench</p>
-        <h1>MCP 工作台</h1>
-        <p class="muted">
-          直接粘贴 <span class="mono">mcp.so</span>、Claude Desktop、Cursor 常见的
-          <span class="mono">mcpServers</span> JSON 配置，动态接入本地或远程 MCP Server。
-        </p>
+        <h1>MCP 工作台 </h1>
+<!--        <p class="muted">-->
+<!--          直接粘贴 <span class="mono">mcp.so</span>、Claude Desktop、Cursor 常见的-->
+<!--          <span class="mono">mcpServers</span> JSON 配置，动态接入本地或远程 MCP Server。-->
+<!--        </p>-->
       </div>
       <div class="hero-actions">
         <span class="chip">stdio + HTTP 共存</span>
-        <span class="chip">{{ backendEnabled ? "已启用 MCP" : "MCP 未启用" }}</span>
+        <span class="chip">{{ backendStatusText }}</span>
         <button class="btn ghost small" type="button" @click="refreshAll">刷新</button>
       </div>
     </header>
@@ -38,6 +37,7 @@
         <div class="rail-scroll compact-stack">
           <label class="field">
             <span>允许使用的应用</span>
+            <p class="muted">不选表示全应用可用（后续新增应用也可直接使用）。</p>
             <div class="app-checklist">
               <label v-for="app in apps" :key="app.app_id" class="check-chip">
                 <input v-model="selectedAllowedApps" :value="app.app_id" type="checkbox" />
@@ -127,8 +127,7 @@
         <section class="surface-card panel mcp-status-panel">
           <div class="tool-strip">
             <div>
-              <p class="eyebrow">运行状态</p>
-              <h2>Server 状态与目录</h2>
+              <h3>Server 状态与目录</h3>
             </div>
             <div class="summary-bar">
               <label class="field inline-field">
@@ -154,8 +153,8 @@
               </div>
               <div class="compact-row">
                 <span class="eyebrow">允许应用</span>
-                <strong>{{ selectedServer.allowed_app_ids.length ? selectedServer.allowed_app_ids.map((id) => appLabel(id, id)).join(" / ") : "未绑定" }}</strong>
-                <p class="muted">未绑定的自定义 Server 不会自动暴露给任何应用。</p>
+                <strong>{{ selectedServer.allowed_app_ids.length ? selectedServer.allowed_app_ids.map((id) => appLabel(id, id)).join(" / ") : "全应用" }}</strong>
+                <p class="muted">作用域为空表示全局可用，无需为新智能体重复导入。</p>
               </div>
               <div class="compact-row">
                 <span class="eyebrow">目录统计</span>
@@ -178,6 +177,32 @@
               </button>
             </div>
 
+            <details v-if="selectedServer" class="surface-card compact-panel scope-details">
+              <summary class="tool-strip">
+                <strong>应用作用域</strong>
+                <span class="chip">{{ selectedServerAllowedApps.length ? `${selectedServerAllowedApps.length} 个应用` : "全应用" }}</span>
+              </summary>
+              <div class="app-checklist">
+                <label v-for="app in apps" :key="`scope-${app.app_id}`" class="check-chip">
+                  <input
+                    v-model="selectedServerAllowedApps"
+                    :value="app.app_id"
+                    type="checkbox"
+                    :disabled="!selectedServer.editable || updating"
+                  />
+                  <span>{{ appLabel(app.app_id, app.name) }}</span>
+                </label>
+              </div>
+              <div class="summary-bar">
+                <button class="btn ghost small" type="button" :disabled="!selectedServer.editable || updating" @click="resetAllowedApps">
+                  重置
+                </button>
+                <button class="btn primary small" type="button" :disabled="!selectedServer.editable || updating" @click="saveAllowedApps">
+                  保存作用域
+                </button>
+              </div>
+            </details>
+
             <div v-if="selectedStatus?.last_error && shouldShowLastError(selectedStatus.last_error)" class="inline-banner">
               <strong>最近错误</strong>
               <p class="inline-error">{{ selectedStatus.last_error }}</p>
@@ -198,10 +223,20 @@
                       </option>
                     </select>
                   </label>
+                  <div class="summary-bar">
+                    <button class="btn ghost small" type="button" :disabled="!Object.keys(selectedToolSchema).length" @click="fillToolArgsTemplate">
+                      填充参数模板
+                    </button>
+                  </div>
+                  <p v-if="selectedToolRequired.length" class="muted mono">必填参数: {{ selectedToolRequired.join(", ") }}</p>
                   <label class="field">
                     <span>工具参数 JSON</span>
                     <textarea v-model="toolArgsText" class="json-editor mono compact-editor" spellcheck="false" />
                   </label>
+                  <details v-if="Object.keys(selectedToolSchema).length" class="schema-details">
+                    <summary>查看参数 Schema</summary>
+                    <pre class="result-block">{{ JSON.stringify(selectedToolSchema, null, 2) }}</pre>
+                  </details>
                   <button class="btn primary small" type="button" :disabled="!selectedServer || !selectedToolName || toolRunning" @click="runTool">
                     {{ toolRunning ? "调用中..." : "调用工具" }}
                   </button>
@@ -290,7 +325,8 @@ const servers = ref<MCPServerSummary[]>([]);
 const statusServers = ref<MCPStatusServer[]>([]);
 const selectedServerName = ref("");
 const selectedAppId = ref("chat");
-const selectedAllowedApps = ref<string[]>(["chat"]);
+const selectedAllowedApps = ref<string[]>([]);
+const selectedServerAllowedApps = ref<string[]>([]);
 const importText = ref("");
 
 const catalog = ref<MCPCatalogResponse | null>(null);
@@ -313,7 +349,12 @@ const resourceResultText = ref("");
 const promptResultText = ref("");
 const errorMessage = ref("");
 const successMessage = ref("");
-const backendEnabled = ref(false);
+const backendEnabled = ref<boolean | null>(null);
+const backendStatusText = computed(() => {
+  if (backendEnabled.value === true) return "已启用 MCP";
+  if (backendEnabled.value === false) return "MCP 未启用";
+  return "MCP 状态未知";
+});
 
 const selectedServer = computed(() => servers.value.find((item) => item.server_name === selectedServerName.value) || null);
 const selectedStatus = computed(() => statusServers.value.find((item) => item.server_name === selectedServerName.value) || null);
@@ -321,6 +362,14 @@ const selectedCatalog = computed<MCPCatalogEntry | null>(() => {
   if (!catalog.value || !selectedServerName.value) return null;
   return catalog.value.catalog[selectedServerName.value] || null;
 });
+const selectedToolSchema = computed<Record<string, unknown>>(() => {
+  const tools = (selectedCatalog.value?.tools || []) as Array<Record<string, unknown>>;
+  const tool = tools.find((item) => String(item.name || "") === selectedToolName.value);
+  if (!tool) return {};
+  const schema = tool.input_schema ?? tool.inputSchema ?? {};
+  return schema && typeof schema === "object" && !Array.isArray(schema) ? (schema as Record<string, unknown>) : {};
+});
+const selectedToolRequired = computed<string[]>(() => toStringArray(selectedToolSchema.value.required));
 
 onMounted(async () => {
   await refreshAll();
@@ -335,6 +384,10 @@ watch(selectedServerName, () => {
   selectedPromptName.value = String(prompts[0]?.name || "");
 });
 
+watch(selectedServer, (server) => {
+  selectedServerAllowedApps.value = server ? [...server.allowed_app_ids] : [];
+});
+
 watch(selectedAppId, async () => {
   await loadCatalog(false);
 });
@@ -346,11 +399,19 @@ watch(selectedCatalog, (entry) => {
   selectedToolName.value = String(tools[0]?.name || "");
   selectedResourceUri.value = String(resources[0]?.uri || "");
   selectedPromptName.value = String(prompts[0]?.name || "");
+  if (!toolArgsText.value.trim() || toolArgsText.value.trim() === "{}") {
+    fillToolArgsTemplate();
+  }
+});
+
+watch(selectedToolName, () => {
+  fillToolArgsTemplate();
 });
 
 async function refreshAll(): Promise<void> {
   errorMessage.value = "";
   successMessage.value = "";
+  backendEnabled.value = null;
   try {
     const [appsResult, serversResult, statusResult] = await Promise.all([
       listApps(),
@@ -394,10 +455,6 @@ async function importConfig(): Promise<void> {
     errorMessage.value = "请先粘贴 MCP 配置 JSON。";
     return;
   }
-  if (!selectedAllowedApps.value.length) {
-    errorMessage.value = "请至少选择一个允许使用该 MCP Server 的应用。";
-    return;
-  }
   importing.value = true;
   errorMessage.value = "";
   try {
@@ -406,7 +463,8 @@ async function importConfig(): Promise<void> {
       allowed_app_ids: selectedAllowedApps.value,
       enabled: true
     });
-    successMessage.value = `已导入 ${result.imported.map((item) => item.server_name).join("、")}。`;
+    const scopeLabel = selectedAllowedApps.value.length ? selectedAllowedApps.value.map((id) => appLabel(id, id)).join(" / ") : "全应用";
+    successMessage.value = `已导入 ${result.imported.map((item) => item.server_name).join("、")}（作用域：${scopeLabel}）。`;
     importText.value = "";
     await refreshAll();
     if (result.imported[0]) {
@@ -472,6 +530,29 @@ async function toggleServer(): Promise<void> {
   }
 }
 
+function resetAllowedApps(): void {
+  selectedServerAllowedApps.value = selectedServer.value ? [...selectedServer.value.allowed_app_ids] : [];
+}
+
+async function saveAllowedApps(): Promise<void> {
+  if (!selectedServer.value?.editable) return;
+  updating.value = true;
+  errorMessage.value = "";
+  try {
+    const updated = await updateMcpServer(selectedServer.value.server_name, {
+      allowed_app_ids: selectedServerAllowedApps.value
+    });
+    const scopeLabel = updated.allowed_app_ids.length ? updated.allowed_app_ids.map((id) => appLabel(id, id)).join(" / ") : "全应用";
+    successMessage.value = `${updated.server_name} 作用域已更新：${scopeLabel}。`;
+    await refreshAll();
+    selectedServerName.value = updated.server_name;
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error);
+  } finally {
+    updating.value = false;
+  }
+}
+
 async function deleteSelectedServer(): Promise<void> {
   if (!selectedServer.value?.editable) return;
   updating.value = true;
@@ -494,11 +575,12 @@ async function runTool(): Promise<void> {
   errorMessage.value = "";
   try {
     const parsed = parseJsonObject(toolArgsText.value);
+    const normalizedArgs = coerceArgumentsBySchema(parsed, selectedToolSchema.value);
     const result = await callMcpTool({
       app_id: selectedAppId.value,
       server_name: selectedServer.value.server_name,
       tool_name: selectedToolName.value,
-      arguments: parsed
+      arguments: normalizedArgs
     });
     toolResultText.value = JSON.stringify(result, null, 2);
   } catch (error) {
@@ -506,6 +588,11 @@ async function runTool(): Promise<void> {
   } finally {
     toolRunning.value = false;
   }
+}
+
+function fillToolArgsTemplate(): void {
+  const template = buildArgsTemplate(selectedToolSchema.value);
+  toolArgsText.value = JSON.stringify(template, null, 2);
 }
 
 async function readResource(): Promise<void> {
@@ -527,7 +614,16 @@ async function readResource(): Promise<void> {
 }
 
 async function renderPrompt(): Promise<void> {
-  if (!selectedServer.value || !selectedPromptName.value) return;
+  if (!selectedServer.value) return;
+  const prompts = (selectedCatalog.value?.prompts || []) as Array<Record<string, unknown>>;
+  if (!prompts.length) {
+    errorMessage.value = "当前 MCP Server 未提供 prompts（这类 server 只能用 tools）。";
+    return;
+  }
+  if (!selectedPromptName.value) {
+    errorMessage.value = "请先选择 Prompt。";
+    return;
+  }
   promptRunning.value = true;
   errorMessage.value = "";
   try {
@@ -556,9 +652,133 @@ function parseJsonObject(text: string): Record<string, unknown> {
   return parsed as Record<string, unknown>;
 }
 
+function buildArgsTemplate(schema: Record<string, unknown>): Record<string, unknown> {
+  const properties = toRecord(schema.properties);
+  const required = new Set(toStringArray(schema.required));
+  const result: Record<string, unknown> = {};
+  if (!Object.keys(properties).length) return {};
+  for (const [name, specValue] of Object.entries(properties)) {
+    const spec = toRecord(specValue);
+    if (required.has(name)) {
+      result[name] = defaultValueForSpec(spec, name);
+    }
+  }
+  if (!Object.keys(result).length) {
+    for (const [name, specValue] of Object.entries(properties)) {
+      const spec = toRecord(specValue);
+      result[name] = defaultValueForSpec(spec, name);
+      if (Object.keys(result).length >= 3) break;
+    }
+  }
+  return result;
+}
+
+function coerceArgumentsBySchema(
+  args: Record<string, unknown>,
+  schema: Record<string, unknown>
+): Record<string, unknown> {
+  const properties = toRecord(schema.properties);
+  const required = new Set(toStringArray(schema.required));
+  const normalized: Record<string, unknown> = { ...args };
+  for (const [name, specValue] of Object.entries(properties)) {
+    if (!(name in normalized)) continue;
+    const spec = toRecord(specValue);
+    normalized[name] = coerceValueBySpec(normalized[name], spec);
+    if (required.has(name) && (normalized[name] === "" || normalized[name] == null)) {
+      normalized[name] = defaultValueForSpec(spec, name);
+    }
+  }
+  for (const [name, specValue] of Object.entries(properties)) {
+    if (!required.has(name)) continue;
+    if (!(name in normalized)) {
+      normalized[name] = defaultValueForSpec(toRecord(specValue), name);
+    }
+  }
+  return normalized;
+}
+
+function coerceValueBySpec(value: unknown, spec: Record<string, unknown>): unknown {
+  const rawType = spec.type;
+  const type = Array.isArray(rawType) ? String(rawType[0] || "string") : String(rawType || "string");
+  if (type === "boolean") {
+    if (typeof value === "boolean") return value;
+    if (typeof value === "string") {
+      const lowered = value.trim().toLowerCase();
+      if (lowered === "true" || lowered === "1") return true;
+      if (lowered === "false" || lowered === "0") return false;
+    }
+    return value;
+  }
+  if (type === "integer" || type === "number") {
+    if (typeof value === "number") return value;
+    if (typeof value === "string") {
+      const parsed = type === "integer" ? Number.parseInt(value, 10) : Number.parseFloat(value);
+      if (!Number.isNaN(parsed)) return parsed;
+    }
+    return value;
+  }
+  if (type === "object") {
+    if (value && typeof value === "object" && !Array.isArray(value)) return value;
+    if (typeof value === "string") {
+      try {
+        const parsed = JSON.parse(value);
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) return parsed;
+      } catch {
+        return value;
+      }
+    }
+    return value;
+  }
+  if (type === "array") {
+    if (Array.isArray(value)) return value;
+    if (typeof value === "string") {
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed;
+      } catch {
+        const split = value
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean);
+        if (split.length) return split;
+      }
+    }
+    return value;
+  }
+  return value;
+}
+
+function defaultValueForSpec(spec: Record<string, unknown>, fieldName = ""): unknown {
+  if ("default" in spec) return spec.default;
+  const enumValues = Array.isArray(spec.enum) ? spec.enum : [];
+  if (enumValues.length) return enumValues[0];
+  const rawType = spec.type;
+  const type = Array.isArray(rawType) ? String(rawType[0] || "string") : String(rawType || "string");
+  if (type === "boolean") return false;
+  if (type === "integer" || type === "number") return 0;
+  if (type === "array") return [];
+  if (type === "object") return {};
+  const name = fieldName.toLowerCase();
+  if (name.includes("city") || name.includes("adcode")) return "110000";
+  if (name.includes("origin") || name.includes("destination") || name.includes("location") || name.includes("lnglat")) return "116.397428,39.90923";
+  if (name.includes("keyword")) return "餐厅";
+  if (name.includes("query")) return "北京";
+  return "example";
+}
+
+function toRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
+}
+
+function toStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.map((item) => String(item)).filter(Boolean);
+}
+
 function appLabel(appId: string, fallback: string): string {
   if (appId === "chat") return "聊天助手";
   if (appId === "deep_research") return "深度研究";
+  if (appId === "software_engineering") return "软件工程";
   return fallback;
 }
 
@@ -586,7 +806,19 @@ function shouldShowLastError(message: string): boolean {
 }
 
 function getErrorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
+  if (!(error instanceof Error)) return String(error);
+  const raw = String(error.message || "").trim();
+  if (!raw) return "未知错误";
+  try {
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object" && "detail" in parsed) {
+      return String((parsed as Record<string, unknown>).detail || raw);
+    }
+  } catch {
+    const detailMatch = raw.match(/"detail"\s*:\s*"([^"]+)"/);
+    if (detailMatch) return detailMatch[1];
+  }
+  return raw;
 }
 </script>
 
@@ -603,6 +835,7 @@ function getErrorMessage(error: unknown): string {
   gap: 16px;
   align-items: start;
   padding: 16px 18px;
+  height: 10%;
 }
 
 .mcp-hero h1 {
@@ -648,7 +881,7 @@ function getErrorMessage(error: unknown): string {
 }
 
 .mcp-status-panel {
-  padding: 14px;
+  padding: 10px 12px;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   min-height: 0;
@@ -680,7 +913,7 @@ function getErrorMessage(error: unknown): string {
 }
 
 .compact-editor {
-  min-height: 120px;
+  min-height: 84px;
 }
 
 .app-checklist {
@@ -737,16 +970,21 @@ function getErrorMessage(error: unknown): string {
 
 .detail-stack {
   display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
   align-content: start;
-  gap: 12px;
+  gap: 10px;
   min-height: 0;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
+}
+
+.detail-grid .compact-row {
+  padding: 8px 10px;
 }
 
 .catalog-grid {
@@ -754,27 +992,47 @@ function getErrorMessage(error: unknown): string {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   min-height: 0;
+  overflow: hidden;
 }
 
 .compact-panel {
-  padding: 12px;
+  padding: 10px;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  gap: 10px;
+  gap: 8px;
   min-height: 0;
   overflow: hidden;
 }
 
 .result-block {
   margin: 0;
-  min-height: 140px;
-  max-height: 240px;
+  min-height: 220px;
+  max-height: 420px;
   overflow: auto;
   padding: 12px 14px;
   border-radius: 16px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.82);
   white-space: pre-wrap;
+}
+
+.scope-details > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.scope-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.schema-details {
+  display: grid;
+  gap: 8px;
+}
+
+.schema-details summary {
+  cursor: pointer;
+  color: var(--muted);
 }
 
 .warning-list {

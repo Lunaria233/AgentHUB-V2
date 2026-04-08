@@ -380,7 +380,7 @@ const catalogMap = computed<Record<string, SkillCatalogItem>>(() =>
   Object.fromEntries(catalog.value.map((item) => [item.skill_id, item]))
 );
 
-const skillEnabledApps = computed(() => apps.value.filter((app) => app.capabilities.skills));
+const skillEnabledApps = computed(() => apps.value);
 
 const stageOptions = computed(() => {
   const options = bindingInfo.value?.context_profiles || [];
@@ -473,6 +473,7 @@ async function runEvalNow(): Promise<void> {
 function appLabel(appId: string, fallback: string): string {
   if (appId === "chat") return "聊天助手";
   if (appId === "deep_research") return "深度研究";
+  if (appId === "software_engineering") return "软件工程智能体";
   return fallback;
 }
 

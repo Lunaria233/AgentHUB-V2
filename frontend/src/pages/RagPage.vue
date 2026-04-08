@@ -47,6 +47,7 @@
               <select v-model="filters.appId">
                 <option value="chat">chat</option>
                 <option value="deep_research">deep_research</option>
+                <option value="software_engineering">software_engineering</option>
               </select>
             </label>
             <label class="field">

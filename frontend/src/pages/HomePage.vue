@@ -11,6 +11,7 @@
       <div class="hero-actions">
         <RouterLink class="btn primary" to="/chat">打开聊天助手</RouterLink>
         <RouterLink class="btn ghost" to="/research">打开深度研究</RouterLink>
+        <RouterLink class="btn ghost" to="/software-engineering">打开软件工程智能体</RouterLink>
         <RouterLink class="btn ghost" to="/skills">打开 Skills 工作台</RouterLink>
       </div>
     </header>
@@ -158,6 +159,31 @@ python -m app.main</pre>
       <article class="surface-card panel">
         <div class="tool-strip">
           <div>
+            <p class="eyebrow">最近工程任务</p>
+            <h2>Software Engineering</h2>
+          </div>
+          <RouterLink class="btn ghost small" to="/software-engineering">进入</RouterLink>
+        </div>
+        <div class="compact-list content-scroll">
+          <RouterLink
+            v-for="run in seRuns"
+            :key="run.session_id"
+            :to="`/software-engineering/${run.session_id}`"
+            class="recent-row"
+          >
+            <div class="recent-copy">
+              <strong>{{ run.goal || run.session_id }}</strong>
+              <p class="muted">{{ run.final_preview || run.status }}</p>
+            </div>
+            <span>{{ formatTimestamp(run.updated_at) }}</span>
+          </RouterLink>
+          <p v-if="!seRuns.length" class="muted">暂无最近工程任务。</p>
+        </div>
+      </article>
+
+      <article class="surface-card panel">
+        <div class="tool-strip">
+          <div>
             <p class="eyebrow">系统摘要</p>
             <h2>关键状态</h2>
           </div>
@@ -195,11 +221,13 @@ import {
   getMemoryStatus,
   getRagStatus,
   listApps,
+  listSERuns,
   listResearchRuns,
   listSessions,
   type AppManifest,
   type MemoryStatus,
   type RAGStatus,
+  type SERunSummary,
   type ResearchRunSummary,
   type SessionSummary
 } from "../services/api";
@@ -207,6 +235,7 @@ import {
 const apps = ref<AppManifest[]>([]);
 const chatSessions = ref<SessionSummary[]>([]);
 const researchRuns = ref<ResearchRunSummary[]>([]);
+const seRuns = ref<SERunSummary[]>([]);
 const memoryStatus = ref<MemoryStatus | null>(null);
 const ragStatus = ref<RAGStatus | null>(null);
 const backendState = ref<"loading" | "ready" | "error">("loading");
@@ -228,16 +257,18 @@ async function loadDashboard(): Promise<void> {
   backendState.value = "loading";
   try {
     await checkHealth();
-    const [appsResult, sessionsResult, runsResult, memoryResult, ragResult] = await Promise.all([
+    const [appsResult, sessionsResult, runsResult, seRunsResult, memoryResult, ragResult] = await Promise.all([
       listApps(),
       listSessions("chat", 8),
       listResearchRuns(8),
+      listSERuns(8),
       getMemoryStatus(),
       getRagStatus()
     ]);
     apps.value = appsResult;
     chatSessions.value = sessionsResult;
     researchRuns.value = runsResult;
+    seRuns.value = seRunsResult;
     memoryStatus.value = memoryResult;
     ragStatus.value = ragResult;
     backendState.value = "ready";
@@ -251,24 +282,28 @@ async function loadDashboard(): Promise<void> {
 function appRoute(appId: string): string {
   if (appId === "chat") return "/chat";
   if (appId === "deep_research") return "/research";
+  if (appId === "software_engineering") return "/software-engineering";
   return "/";
 }
 
 function routeLabel(appId: string): string {
   if (appId === "chat") return "对话";
   if (appId === "deep_research") return "研究";
+  if (appId === "software_engineering") return "工程";
   return "打开";
 }
 
 function localAppName(appId: string, fallback: string): string {
   if (appId === "chat") return "聊天助手";
   if (appId === "deep_research") return "深度研究助手";
+  if (appId === "software_engineering") return "软件工程智能体";
   return fallback;
 }
 
 function localAppDescription(appId: string, fallback: string): string {
   if (appId === "chat") return "面向高频操作的主对话工作区。";
   if (appId === "deep_research") return "规划任务、跟踪执行并输出最终报告。";
+  if (appId === "software_engineering") return "需求到代码、反馈到修复的动态工程闭环。";
   return fallback;
 }
 

@@ -70,6 +70,76 @@ export interface ResearchRunRecord {
   updated_at: string;
 }
 
+export interface SERunSummary {
+  session_id: string;
+  app_id: string;
+  mode: string;
+  goal: string;
+  status: string;
+  iteration_count: number;
+  final_preview: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SEPatchRecord {
+  path: string;
+  mode: string;
+  summary: string;
+  diff_preview: string;
+}
+
+export interface SEExecutionRecord {
+  iteration?: number;
+  command: string;
+  exit_code: number;
+  duration_seconds: number;
+  stdout: string;
+  stderr: string;
+  installed_dependencies?: string[];
+  timestamp?: string;
+}
+
+export interface SEDiagnosisRecord {
+  next_state?: string;
+  reason: string;
+  failure_type?: string;
+  proposed_action?: string;
+}
+
+export interface SETraceRecord {
+  iteration: number;
+  state: string;
+  agent: string;
+  summary: string;
+}
+
+export interface SEFinalCodeFile {
+  path: string;
+  content: string;
+}
+
+export interface SERunRecord {
+  session_id: string;
+  app_id: string;
+  mode: string;
+  goal: string;
+  status: string;
+  constraints: Record<string, unknown>;
+  plan: Record<string, unknown>;
+  patches: SEPatchRecord[];
+  executions: SEExecutionRecord[];
+  diagnoses: SEDiagnosisRecord[];
+  trace: SETraceRecord[];
+  events: RunEvent[];
+  final_code_files?: SEFinalCodeFile[];
+  iteration_count: number;
+  final_result: string;
+  final_report: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface MemoryStatus {
   memory_backend: string;
   extraction_mode: string;
@@ -503,6 +573,15 @@ export function getResearchRun(sessionId: string): Promise<ResearchRunRecord> {
   return requestJson<ResearchRunRecord>(`/api/research/history/${encodeURIComponent(sessionId)}`);
 }
 
+export function listSERuns(limit = 30): Promise<SERunSummary[]> {
+  const params = new URLSearchParams({ limit: String(limit) });
+  return requestJson<{ runs: SERunSummary[] }>(`/api/software-engineering/history?${params.toString()}`).then((result) => result.runs);
+}
+
+export function getSERun(sessionId: string): Promise<SERunRecord> {
+  return requestJson<SERunRecord>(`/api/software-engineering/history/${encodeURIComponent(sessionId)}`);
+}
+
 export function getMemoryStatus(): Promise<MemoryStatus> {
   return requestJson<MemoryStatus>("/api/memory/status");
 }
@@ -893,6 +972,25 @@ export async function streamResearch(
   options: StreamOptions = {}
 ): Promise<void> {
   await streamRequest("/api/research/stream", payload, onEvent, options);
+}
+
+export async function streamSoftwareEngineering(
+  payload: {
+    session_id: string;
+    task: string;
+    mode: "requirement_to_code" | "feedback_to_fix";
+    user_id?: string;
+    verify_command?: string;
+    allow_modify_tests?: boolean;
+    allow_install_dependency?: boolean;
+    max_iterations?: number;
+    allow_network?: boolean;
+    working_directory?: string;
+  },
+  onEvent: (event: RunEvent) => void,
+  options: StreamOptions = {}
+): Promise<void> {
+  await streamRequest("/api/software-engineering/stream", payload, onEvent, options);
 }
 
 async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {

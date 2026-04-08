@@ -13,6 +13,7 @@
         <RouterLink to="/" class="nav-link">首页</RouterLink>
         <RouterLink to="/chat" class="nav-link">聊天助手</RouterLink>
         <RouterLink to="/research" class="nav-link">深度研究</RouterLink>
+        <RouterLink to="/software-engineering" class="nav-link">软件工程智能体</RouterLink>
         <RouterLink to="/rag" class="nav-link">RAG 工作台</RouterLink>
         <RouterLink to="/memory" class="nav-link">记忆中心</RouterLink>
         <RouterLink to="/mcp" class="nav-link">MCP 工作台</RouterLink>

@@ -191,13 +191,8 @@ class MCPConnectionManager:
         for server_name in self.list_server_names():
             config = self._configs[server_name]
             client = self._clients.get(server_name)
-            if config.enabled and client is not None:
-                if not client.status_snapshot().get("tools_count"):
-                    self.discover_tools(server_name)
-                if not client.status_snapshot().get("resources_count"):
-                    self.discover_resources(server_name)
-                if not client.status_snapshot().get("prompts_count"):
-                    self.discover_prompts(server_name)
+            # Keep status endpoint non-blocking. Catalog discovery can be triggered explicitly via
+            # /api/mcp/catalog?refresh=true from the workbench.
             snapshot = client.status_snapshot() if client else {}
             servers.append(
                 {

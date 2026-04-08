@@ -5,6 +5,7 @@ from functools import lru_cache
 
 from app.apps.chat.manifest import CHAT_APP_MANIFEST
 from app.apps.deep_research.manifest import DEEP_RESEARCH_APP_MANIFEST
+from app.apps.software_engineering.manifest import SOFTWARE_ENGINEERING_APP_MANIFEST
 from app.config import get_settings
 from app.platform.apps.manifest import AppManifest
 
@@ -27,7 +28,7 @@ class AppRegistry:
 def get_app_registry() -> AppRegistry:
     settings = get_settings()
     registry = AppRegistry()
-    for manifest in [CHAT_APP_MANIFEST, DEEP_RESEARCH_APP_MANIFEST]:
+    for manifest in [CHAT_APP_MANIFEST, DEEP_RESEARCH_APP_MANIFEST, SOFTWARE_ENGINEERING_APP_MANIFEST]:
         app_config = settings.get_app_config(manifest.app_id)
         if not app_config.enabled:
             continue
