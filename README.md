@@ -7,6 +7,7 @@ Current scope:
 - Backend platform foundation
 - Built-in `chat` app
 - Built-in `deep_research` app
+- Built-in `SoftWare Engineering Agent` app
 - Shared model/history/memory/rag/context/tool/runtime layers
 
 Backend entry:
