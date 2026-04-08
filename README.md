@@ -1,4 +1,4 @@
-# Agent Platform V2
+# AgentHUB-V2
 
 Self-built multi-agent application platform inspired by the `hello_agents` tutorial, but implemented without depending on the `hello_agents` package.
 
